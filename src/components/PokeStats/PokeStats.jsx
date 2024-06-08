@@ -12,7 +12,7 @@ const PokeStats = ({stats}) => {
 
     return(
         <div style={containerStyle}>
-            {stats.map(stat => <StatBar name={stat.name} value={stat.value} key={stat.value + stat.name}/>)}
+            {stats?.map(stat => <StatBar name={stat.name} value={stat.value} key={stat.value + stat.name}/>)}
         </div>
     )
 }
