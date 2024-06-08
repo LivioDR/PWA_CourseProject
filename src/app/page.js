@@ -12,9 +12,13 @@ export default function Home() {
 
 
   useEffect(()=>{
-    setPokeList(getAllPokemon())
+    const getPokeData = async() => {
+      let pokeData = await getAllPokemon()
+      console.log(pokeData)
+      setPokeList(pokeData)
+    }
+    getPokeData()
   },[])
-
 
 
   return (
