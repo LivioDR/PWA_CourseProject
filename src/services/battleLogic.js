@@ -56,6 +56,12 @@ const getEarnedExperience = (myLevel, enemyLevel, baseExp, affection = 1, luckyE
     return deltaExp
 }
 
+// Returns the experience needed to achieve a level
+const getCurrentLevel = (lvl) => {
+    // the minimum level is 5 due to the tipping point of the formula
+    return ( (1.2 * Math.pow(lvl,3)) - (15*Math.pow(lvl,2)) + (100*lvl) - 140)
+}
+
 // Returns the type multiplier for the attack type and the defender type
 const getTypeMultiplier = async(atkType, defenderType) => {
     const typeData = await fetch(`https://pokeapi.co/api/v2/type/${atkType}/`).then(res => res.json()).then(res => res.damage_relations)
