@@ -50,6 +50,12 @@ const getRandomAtack = (atks) => {
     return atks[Math.floor(Math.random() * atks.length)]
 }
 
+// Returns the amount of experience points earned during battle by defeating the opponent pokemon
+const getEarnedExperience = (myLevel, enemyLevel, baseExp, affection = 1, luckyEgg = 1, trainerModifier = 1, shareExp = 1, pastEvoLevel = 1, boostPower = 1) => {
+    const deltaExp = ( ((baseExp * enemyLevel) / 5) * (1/shareExp) * Math.pow((((2 * enemyLevel) + 10)/(myLevel + enemyLevel + 10)),2.5) + 1 ) * affection * trainerModifier * pastEvoLevel * boostPower * luckyEgg
+    return deltaExp
+}
+
 // Returns the type multiplier for the attack type and the defender type
 const getTypeMultiplier = async(atkType, defenderType) => {
     const typeData = await fetch(`https://pokeapi.co/api/v2/type/${atkType}/`).then(res => res.json()).then(res => res.damage_relations)
