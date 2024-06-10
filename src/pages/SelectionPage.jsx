@@ -12,8 +12,6 @@ const SelectionPage = ({pokeList}) => {
         
     },[poke])
 
-    console.log(pokeList)
-
     return(
         <>
             <PokeImage img={'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/132.gif'}/>
