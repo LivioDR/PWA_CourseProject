@@ -1,6 +1,6 @@
 import Metadata from "@/components/Metadata";
 import Header from "@/components/Header/Header";
-import PokeCardContainer from "@/components/PokeCardContainer/PokeCardContainer";
+import SelectionPage from "@/pages/SelectionPage";
 
 export default function Home() {
 
@@ -8,7 +8,7 @@ export default function Home() {
     <>
       <Metadata/>
       <Header/>
-      <PokeCardContainer/>
+      <SelectionPage/>
     </>
   );
 }
