@@ -345,4 +345,4 @@ const battleSequence = async() => {
     newBattlePrompt()
 }
 
-export default battleSequence
+export {battleSequence, getCurrentLevel, getEarnedExperience}
