@@ -42,17 +42,23 @@ const getPokemonStats = (data) => {
 }
 
 const getAttackInfo = async(atkUrl, lang = 'en') => {
-    let data = await fetch(atkUrl).then(res => res.json())
-    let attackData = {
-        accuracy: data.accuracy == null ? 100 : data.accuracy,
-        name: data.names.filter(names => names.language.name == lang),
-        power: data.power,
-        pp: data.pp,
-        id: atkUrl.split("move/")[1].split("/")[0],
-        damage: data.damage_class.name,
-        type: data.type.name,
+    try{
+        let data = await fetch(atkUrl).then(res => res.json())
+        let attackData = {
+            accuracy: data.accuracy == null ? 100 : data.accuracy,
+            name: data.names.filter(names => names.language.name == lang),
+            power: data.power,
+            pp: data.pp,
+            id: atkUrl.split("move/")[1].split("/")[0],
+            damage: data.damage_class.name,
+            type: data.type.name,
+        }
+        return attackData
     }
-    return attackData
+    catch(e){
+        console.error(e)
+        return {}
+    }
 }
 
 const getPokemonAttacksFromAllMoves = async(moves) => {
@@ -79,6 +85,12 @@ const getPokemonAttacksFromAllMoves = async(moves) => {
     return attacks
 }
 
+const getPokemonCry = async(id) => {
+    let result = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`).then(res => res.json())
+    return result.cries.latest
+
+}
+
 
 const getPokemonData = async(pokemonName) => {
 
@@ -100,4 +112,4 @@ const getPokemonData = async(pokemonName) => {
 }
 
 
-export {getPokemonData, getPokemonStats, getPokemonAttacksFromAllMoves}
+export {getPokemonData, getPokemonStats, getPokemonAttacksFromAllMoves, getPokemonCry}
