@@ -8,13 +8,13 @@ const styles = {
 }
 
 
-const PokeImage = ({img}) => {
+const PokeImage = ({img , style}) => {
 
     return(
         <>
         <img
         src={img}
-        style={styles}
+        style={{...styles, ...style}}
         alt={"Pokemon sprite"}
         />
         </>
