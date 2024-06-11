@@ -27,14 +27,17 @@ const cardStyle = {
 const PokeCard = ({id, name, lvl, exp, image, selected, setSelected, setPokemonData}) => {
 
     const toggleSelection = async() => {
+        // changed background
         setSelected(id)
+
+        // played sound effect on selection
         const cry = await getPokemonCry(id)
         const cryAudio = new Audio(cry)
         cryAudio.volume = 0.5
         cryAudio.play()
 
+        // gather all data an store it in state
         const allData = await getPokemonData(id)
-        console.warn(allData)
         setPokemonData(allData)
     }
 
