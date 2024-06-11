@@ -1,15 +1,31 @@
 import React from "react";
 import ExpBar from "./ExpBar/ExpBar";
 
+const styles = {
+    wrapper: {
+        width: '90%',
+    },
+    textContainer: {
+        textAlign: 'center',
+        width: '100%',
+    },
+    name: {
+        WebkitTextStroke: '0.2px black',
+    },
+    level: {
+        WebkitTextStroke: '0.5px black',
+    }
+}
+
 const NameLevelContainer = ({name, level, expPercentage}) => {
 
     return(
-        <div>
-            <div>
-                <h3>
+        <div style={styles.wrapper}>
+            <div style={styles.textContainer}>
+                <h3 style={styles.name}>
                     {name}
                 </h3>
-                <p>
+                <p style={styles.level}>
                     Lv: {level}
                 </p>
             </div>
