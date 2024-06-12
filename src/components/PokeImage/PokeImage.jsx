@@ -1,4 +1,5 @@
 import React from "react"
+import Image from "next/image"
 
 const styles = {
     width: 250,
@@ -12,8 +13,11 @@ const PokeImage = ({img , style}) => {
 
     return(
         <>
-        <img
+        <Image
         src={img}
+        width={250}
+        height={250}
+        unoptimized
         style={{...styles, ...style}}
         alt={"Pokemon sprite"}
         />
