@@ -7,6 +7,7 @@ const containerStyle = {
     flexWrap: 'wrap',
     width: '80vw',
     height: '80vh',
+    justifyContent: 'space-evenly',
 }
 
 
