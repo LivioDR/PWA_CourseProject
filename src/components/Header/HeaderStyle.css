@@ -1,5 +1,13 @@
-h1 {
+.headerContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.headerTitle {
     color: white;
     -webkit-text-stroke: 1px black;
-    text-align: center;
+    text-align: left;
+    padding-left: 2%;
 }
