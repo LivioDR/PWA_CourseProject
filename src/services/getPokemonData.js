@@ -41,6 +41,14 @@ const getPokemonStats = (data) => {
 
 }
 
+const getStatsForLevel = (baseStats, level) => {
+    let newStats = {}
+    for(const key of Object.keys(baseStats))[
+        newStats[key] = Math.round((baseStats[key]) + (baseStats[key] * (level / 50)))
+    ]
+    return newStats
+}
+
 const getAttackInfo = async(atkUrl, lang = 'en') => {
     try{
         let data = await fetch(atkUrl).then(res => res.json())
@@ -108,7 +116,9 @@ const getPokemonData = async(pokemonName) => {
         back_image: imageBack,
         cry: result.cries.latest,
         moves: moves,
-        stats: stats
+        baseStats: stats,
+        // level: Math.round(Math.random() * 100),
+        // stats: getStatsForLevel(stats, Math.round(Math.random() * 100))
     }
 
     return pokeData
