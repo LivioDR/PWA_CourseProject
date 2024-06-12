@@ -77,6 +77,7 @@ const getPokemonAttacksFromAllMoves = async(moves) => {
                 damage: attackData.damage,
                 type: attackData.type,
                 label: `${attackData.damage == 'physical' ? '&#128165;' : '&#127744;'} ${attackData.name[0].name} (POW: ${attackData.power})`,
+                minLevel: moves[i].version_group_details[0].level_learned_at,
             })
         }
     }
