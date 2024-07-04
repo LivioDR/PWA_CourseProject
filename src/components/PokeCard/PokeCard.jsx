@@ -1,6 +1,6 @@
 'use client'
 import React from "react";
-import { getCurrentLevel } from "@/services/battleLogic";
+import { getCurrentLevelExp } from "@/services/battleLogic";
 import NameLevelContainer from "../NameLevelContainer/NameLevelContainer";
 import PokeImage from "../PokeImage/PokeImage";
 import { filterPokemonMovesByLevel, getPokemonCry, getPokemonData } from "@/services/getPokemonData";
@@ -47,8 +47,8 @@ const PokeCard = ({id, name, lvl, exp, image, selected, setSelected, setPokemonD
         setIsDataReady(true)
     }
 
-    const currLevelExp = getCurrentLevel(lvl)
-    const expNextLevel = getCurrentLevel(lvl+1)
+    const currLevelExp = getCurrentLevelExp(lvl)
+    const expNextLevel = getCurrentLevelExp(lvl+1)
     const percentageToNextLevel = ((exp - currLevelExp)/(expNextLevel - currLevelExp)*100)
 
     return(

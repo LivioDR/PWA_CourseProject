@@ -57,9 +57,18 @@ const getEarnedExperience = (myLevel, enemyLevel, baseExp, affection = 1, luckyE
 }
 
 // Returns the experience needed to achieve a level
-const getCurrentLevel = (lvl) => {
+const getCurrentLevelExp = (lvl) => {
     // the minimum level is 5 due to the tipping point of the formula
     return ( (1.2 * Math.pow(lvl,3)) - (15*Math.pow(lvl,2)) + (100*lvl) - 140)
+}
+
+// Returns the current level achieved by the earned experience
+const getLevelFromExp = (exp) => {
+    let level = 5
+    while(getCurrentLevelExp(level) < exp){
+        level++
+    }
+    return level
 }
 
 // Returns the type multiplier for the attack type and the defender type
@@ -191,4 +200,4 @@ const typeMessage = async(typeMult) => {
     }
 }
 
-export { getCurrentLevel, getEarnedExperience}
+export { getCurrentLevelExp, getEarnedExperience}
