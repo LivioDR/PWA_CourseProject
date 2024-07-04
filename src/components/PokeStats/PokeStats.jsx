@@ -4,7 +4,7 @@ import StatBar from "./StatBar/StatBar";
 const containerStyle = {
     width: '400px',
     marginTop: '20px',
-    height: '200px',
+    maxHeight: '200px',
 }
 
 
