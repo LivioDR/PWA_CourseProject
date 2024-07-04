@@ -6,6 +6,8 @@ const styles = {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        marginTop: '2%',
+        marginBottom: '2%',
     },
     statName: {
         fontSize: '0.5em',
@@ -25,14 +27,12 @@ const styles = {
 
 
 const StatBar = ({name, value, maxValue}) => {
-
     const percentage = (value/maxValue)*100
-
     return(
         <div style={styles.container}>
             <p style={styles.statName}>{name}</p>
             <div style={styles.barContainer}>
-                <div style={{...styles.statBar, width:`${percentage}%`, backgroundColor:hsl(`${percentage}deg 60% 45%`)}}> 
+                <div style={{...styles.statBar, width:`${percentage}%`, backgroundColor: `hsl(${percentage}deg 60% 45%)`}}> 
                 </div>
             </div>
             <p style={styles.statNumber}>{value}</p>
