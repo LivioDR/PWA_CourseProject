@@ -1,14 +1,20 @@
 import React from "react";
-import Link from "next/link";
 import './ConfirmBtnStyle.css'
 
-const ConfirmButton = ({route}) => {
-    return(
-        <Link href={route}>
-            <div className="confirmWrapper">
+const ConfirmButton = ({route, ready}) => {
+    if(ready){
+        return(
+            <button className="confirmWrapper" onClick={route}>
                 <p className="confirmText">Confirm</p>
-            </div>
-        </Link>
-    )
+            </button>
+        )
+    }
+    else{
+        return(
+            <button className="confirmWrapper" disabled>
+                <p className="confirmText">Loading...</p>
+            </button>
+        )
+    }
 }
 export default ConfirmButton

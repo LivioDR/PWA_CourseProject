@@ -3,7 +3,7 @@ import React from "react";
 import { getCurrentLevel } from "@/services/battleLogic";
 import NameLevelContainer from "../NameLevelContainer/NameLevelContainer";
 import PokeImage from "../PokeImage/PokeImage";
-import { getPokemonCry, getPokemonData } from "@/services/getPokemonData";
+import { filterPokemonMovesByLevel, getPokemonCry, getPokemonData } from "@/services/getPokemonData";
 
 const cardStyle = {
     container: {
@@ -24,9 +24,12 @@ const cardStyle = {
     }
 }
 
-const PokeCard = ({id, name, lvl, exp, image, selected, setSelected, setPokemonData}) => {
+const PokeCard = ({id, name, lvl, exp, image, selected, setSelected, setPokemonData, setIsDataReady}) => {
 
     const toggleSelection = async() => {
+        // disables confirm button until data is loaded
+        setIsDataReady(false)
+
         // changed background
         setSelected(id)
 
@@ -37,8 +40,10 @@ const PokeCard = ({id, name, lvl, exp, image, selected, setSelected, setPokemonD
         cryAudio.play()
 
         // gather all data an store it in state
-        const allData = await getPokemonData(id)
+        let allData = await getPokemonData(id)
+        allData = filterPokemonMovesByLevel(allData, lvl)
         setPokemonData(allData)
+        setIsDataReady(true)
     }
 
     const currLevelExp = getCurrentLevel(lvl)

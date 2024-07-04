@@ -3,9 +3,9 @@ import ConfirmButton from "@/components/ConfirmButton/ConfirmButton"
 import PokeCardContainer from "@/components/PokeCardContainer/PokeCardContainer"
 import React, { useEffect, useState } from "react"
 
-const SelectionPage = () => {
+const SelectionPage = ({pokemonData, setPokemonData, nextPage}) => {
     const [selectedPokemon, setSelectedPokemon] = useState(0)
-    const [pokemonData, setPokemonData] = useState({})
+    const [isDataReady, setIsDataReady] = useState(false)
 
     useEffect(()=>{
         console.log("Selection page log of pokemon data:",pokemonData)
@@ -47,10 +47,10 @@ const SelectionPage = () => {
 
     return(
         <div style={{margin: '0 auto', width: '80%'}}>
-            <PokeCardContainer selectedPokemon={selectedPokemon} setSelectedPokemon={setSelectedPokemon} pokeList={placeholder} setPokemonData={setPokemonData}/>
+            <PokeCardContainer selectedPokemon={selectedPokemon} setSelectedPokemon={setSelectedPokemon} setIsDataReady={setIsDataReady} pokeList={placeholder} setPokemonData={setPokemonData}/>
             { 
             selectedPokemon !== 0 &&            
-            <ConfirmButton route={'/'}/>
+            <ConfirmButton route={nextPage} ready={isDataReady}/>
             }
         </div>
     )
