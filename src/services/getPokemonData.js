@@ -84,7 +84,7 @@ const getPokemonAttacksFromAllMoves = async(moves) => {
                 maxPp: attackData.pp,
                 damage: attackData.damage,
                 type: attackData.type,
-                label: `${attackData.name[0].name} | Type: ${attackData.damage == 'physical' ? String.fromCodePoint('0x1F4A5') : String.fromCodePoint('0x1F300')} | Power: ${attackData.power} | ${String.fromCodePoint('0x1F3AF')} ${attackData.accuracy}%`,
+                label: `${attackData.name[0].name} | Damage: ${attackData.damage == 'physical' ? String.fromCodePoint('0x1F4A5') : String.fromCodePoint('0x1F300')} | Power: ${attackData.power} | ${String.fromCodePoint('0x1F3AF')} ${attackData.accuracy}%`,
                 minLevel: moves[i].version_group_details[0].level_learned_at,
             })
         }
