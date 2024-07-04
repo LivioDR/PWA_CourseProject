@@ -1,4 +1,5 @@
 'use client'
+import ConfirmButton from "@/components/ConfirmButton/ConfirmButton"
 import PokeCardContainer from "@/components/PokeCardContainer/PokeCardContainer"
 import React, { useEffect, useState } from "react"
 
@@ -7,7 +8,7 @@ const SelectionPage = () => {
     const [pokemonData, setPokemonData] = useState({})
 
     useEffect(()=>{
-        console.log(pokemonData)
+        console.log("Selection page log of pokemon data:",pokemonData)
     },[pokemonData])
 
 
@@ -47,6 +48,10 @@ const SelectionPage = () => {
     return(
         <div style={{margin: '0 auto', width: '80%'}}>
             <PokeCardContainer selectedPokemon={selectedPokemon} setSelectedPokemon={setSelectedPokemon} pokeList={placeholder} setPokemonData={setPokemonData}/>
+            { 
+            selectedPokemon !== 0 &&            
+            <ConfirmButton route={'/'}/>
+            }
         </div>
     )
 }

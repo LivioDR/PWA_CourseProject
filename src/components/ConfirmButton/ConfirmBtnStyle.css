@@ -1,0 +1,17 @@
+.confirmWrapper {
+    width: 25%;
+    align-items: center;
+    text-align: center;
+    text-justify: center;
+    background-color: aqua;
+    height: 3em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    border-radius: 50px;
+
+}
+.confirmText {
+    font-size: medium;
+    color: black;
+}
