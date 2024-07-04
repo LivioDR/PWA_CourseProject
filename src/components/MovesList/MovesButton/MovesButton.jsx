@@ -2,7 +2,7 @@
 import React,{ useState } from "react";
 import './MovesButtonStyle.css'
 
-const MovesButton = ({move, addMove, removeMove}) => {
+const MovesButton = ({move, addMove, removeMove, actionable = true}) => {
     const [isAdded, setIsAdded] = useState(false)
 
     const addThisMove = () => {
@@ -16,24 +16,36 @@ const MovesButton = ({move, addMove, removeMove}) => {
 
     const arrayFromLabel = move.label.split("|")
 
-    if(isAdded){
-        return(
-            <button className="movesButton selected" onClick={()=>removeThisMove()}>
-                <div className="movesButtonTextWrapper">
-                    {arrayFromLabel.map(text=><p key={move.id + text} className="movesButtonText">{text}</p>)}
-                </div>
-            </button>
-        )
+    if(actionable){
+        if(isAdded){
+            return(
+                <button className="movesButton selected" onClick={()=>removeThisMove()}>
+                    <div className="movesButtonTextWrapper">
+                        {arrayFromLabel.map(text=><p key={move.id + text} className="movesButtonText">{text}</p>)}
+                    </div>
+                </button>
+            )
+        }
+        else{
+            return(
+                <button className="movesButton not-selected" onClick={()=>addThisMove()}>
+                    <div className="movesButtonTextWrapper">
+                        {arrayFromLabel.map(text=><p key={move.id + text} className="movesButtonText">{text}</p>)}
+                    </div>
+                </button>
+            )
+        }
     }
     else{
         return(
-            <button className="movesButton not-selected" onClick={()=>addThisMove()}>
-                <div className="movesButtonTextWrapper">
-                    {arrayFromLabel.map(text=><p key={move.id + text} className="movesButtonText">{text}</p>)}
-                </div>
-            </button>
+            <button className="movesButton not-selected">
+            <div className="movesButtonTextWrapper">
+                {arrayFromLabel.map(text=><p key={move.id + text} className="movesButtonText">{text}</p>)}
+            </div>
+        </button>
         )
     }
+
 
 }
 export default MovesButton
