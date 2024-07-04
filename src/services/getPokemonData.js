@@ -101,9 +101,9 @@ const getPokemonCry = async(id) => {
 }
 
 
-const getPokemonData = async(pokemonName) => {
+const getPokemonData = async(pokemonId) => {
 
-    let result = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}/`).then(res => res.json())
+    let result = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}/`).then(res => res.json())
     const image = result.sprites.other.showdown.front_default
     const imageBack = result.sprites.other.showdown.back_default
     const cry = new Audio(result.cries.latest)
@@ -112,6 +112,7 @@ const getPokemonData = async(pokemonName) => {
     const moves = await getPokemonAttacksFromAllMoves(result.moves)
 
     const pokeData = {
+        id: pokemonId,
         front_image: image,
         back_image: imageBack,
         cry: result.cries.latest,
@@ -124,5 +125,14 @@ const getPokemonData = async(pokemonName) => {
     return pokeData
 }
 
+const filterPokemonMovesByLevel = (pokemonData, level) => {
+    let moves = [...pokemonData.moves]
+    moves.filter(move => move.minLevel <= level)
+    pokemonData = {
+        ...pokemonData,
+        moves: moves}
+    return pokemonData
+}
 
-export {getPokemonData, getPokemonStats, getPokemonAttacksFromAllMoves, getPokemonCry}
+
+export {getPokemonData, getPokemonStats, getPokemonAttacksFromAllMoves, getPokemonCry, filterPokemonMovesByLevel}
