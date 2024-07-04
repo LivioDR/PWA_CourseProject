@@ -1,7 +1,7 @@
 import React from "react";
 import MovesButton from "../MovesButton/MovesButton";
 
-const SelectedMovesContainer = ({moves}) => {
+const MovesSelected = ({moves}) => {
     return(
         <div style={{width: '50%', textAlign: 'center'}}>
             {
@@ -12,4 +12,4 @@ const SelectedMovesContainer = ({moves}) => {
         </div>
     )
 }
-export default SelectedMovesContainer
+export default MovesSelected

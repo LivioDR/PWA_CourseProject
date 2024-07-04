@@ -1,6 +1,6 @@
 'use client'
 import MovesList from "@/components/MovesList/MovesList";
-import SelectedMovesContainer from "@/components/MovesList/SelectedMovesContainer/SelectedMovesContainer";
+import MovesSelected from "@/components/MovesList/MovesSelected/MovesSelected";
 import PokeImage from "@/components/PokeImage/PokeImage";
 import PokeStats from "@/components/PokeStats/PokeStats";
 import React, { useState } from "react";
@@ -55,7 +55,7 @@ const MoveSelectionPage = ({pokemonData}) => {
             <p>Please select at least one move</p>
         }
         <MovesList moves={pokemonData.moves} addMove={addMove} removeMove={removeMove}/>
-        <SelectedMovesContainer moves={selectedMoves} />
+        <MovesSelected moves={selectedMoves} />
         </>
     )
 }
