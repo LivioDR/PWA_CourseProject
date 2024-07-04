@@ -43,6 +43,7 @@ const PokeCard = ({id, name, lvl, exp, image, selected, setSelected, setPokemonD
         let allData = await getPokemonData(id)
         allData = filterPokemonMovesByLevel(allData, lvl)
         setPokemonData(allData)
+        window.localStorage.setItem('selectedPokemon',allData)
         setIsDataReady(true)
     }
 
