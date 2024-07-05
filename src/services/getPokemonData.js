@@ -74,7 +74,7 @@ const getPokemonAttacksFromAllMoves = async(moves) => {
     for(let i=0; i<moves.length; i++){
         const url = moves[i].move.url
         let attackData = await getAttackInfo(url)
-        if(attackData.power > 0){
+        if(attackData.power > 0 && moves[i].version_group_details[0].move_learn_method.name != "machine"){ // getting only the damaging moves that are not learned with a TM/HM
             attacks.push({
                 id: attackData.id,
                 accuracy: attackData.accuracy,
@@ -118,8 +118,6 @@ const getPokemonData = async(pokemonId) => {
         cry: result.cries.latest,
         moves: moves,
         baseStats: stats,
-        // level: Math.round(Math.random() * 100),
-        // stats: getStatsForLevel(stats, Math.round(Math.random() * 100))
     }
 
     return pokeData
@@ -127,7 +125,7 @@ const getPokemonData = async(pokemonId) => {
 
 const filterPokemonMovesByLevel = (pokemonData, level) => {
     let moves = [...pokemonData.moves]
-    moves.filter(move => move.minLevel <= level)
+    moves = moves.filter(move => move.minLevel <= level)
     pokemonData = {
         ...pokemonData,
         moves: moves}
@@ -135,4 +133,4 @@ const filterPokemonMovesByLevel = (pokemonData, level) => {
 }
 
 
-export {getPokemonData, getPokemonStats, getPokemonAttacksFromAllMoves, getPokemonCry, filterPokemonMovesByLevel}
+export {getPokemonData, getPokemonStats, getPokemonAttacksFromAllMoves, getPokemonCry, filterPokemonMovesByLevel, getStatsForLevel}
