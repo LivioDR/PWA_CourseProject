@@ -118,6 +118,8 @@ const getPokemonData = async(pokemonId) => {
         cry: result.cries.latest,
         moves: moves,
         baseStats: stats,
+        name: result.name,
+        types: result.types.map(type => type.type.name)
     }
 
     return pokeData
