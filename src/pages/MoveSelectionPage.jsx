@@ -1,8 +1,10 @@
 'use client'
+import ConfirmButton from "@/components/ConfirmButton/ConfirmButton";
 import MovesList from "@/components/MovesList/MovesList";
 import MovesSelected from "@/components/MovesList/MovesSelected/MovesSelected";
 import PokeImage from "@/components/PokeImage/PokeImage";
 import PokeStats from "@/components/PokeStats/PokeStats";
+import getRivalPokemonData from "@/services/getRivalPokemon";
 import React, { useState } from "react";
 
 const MoveSelectionPage = ({pokemonData}) => {
@@ -10,6 +12,15 @@ const MoveSelectionPage = ({pokemonData}) => {
     const [selectedMoves, setSelectedMoves] = useState([])
     const [movesNumberExceeded, setMovesNumberExceeded] = useState(false)
     const [noMovesSelected, setNoMovesSelected] = useState(false)
+    const [areMovesOkay, setAreMovesOkay] = useState(false)
+
+    const displayInfoOnConsole = async() => {
+        console.log(pokemonData)
+        console.log(selectedMoves)
+        let rival = await getRivalPokemonData(pokemonData.level)
+        console.warn(rival)
+    }
+
 
     const addMove = (moveId) => {
         const moveToAppend = [...pokemonData.moves].filter(move => move.id == moveId)
@@ -18,9 +29,11 @@ const MoveSelectionPage = ({pokemonData}) => {
             setNoMovesSelected(false)
             if(prev.length >= 4){
                 setMovesNumberExceeded(true)
+                setAreMovesOkay(false)
             }
             else{
                 setMovesNumberExceeded(false)
+                setAreMovesOkay(true)
             }
             return [...prev, moveToAppend[0]]
         })
@@ -31,10 +44,12 @@ const MoveSelectionPage = ({pokemonData}) => {
             prev = prev.filter(move => move.id != moveId)
             if(prev.length < 1){
                 setNoMovesSelected(true)
+                setAreMovesOkay(false)
             }
             else{
                 if(prev.length <= 4){
                     setMovesNumberExceeded(false)
+                    setAreMovesOkay(true)
                 }
                 setNoMovesSelected(false)
             }
@@ -56,6 +71,7 @@ const MoveSelectionPage = ({pokemonData}) => {
         }
         <MovesList moves={pokemonData.moves} addMove={addMove} removeMove={removeMove}/>
         <MovesSelected moves={selectedMoves} />
+        <ConfirmButton confirmText="Start Battle" loadingText="Start Battle" ready={areMovesOkay} route={()=>displayInfoOnConsole()} />
         </>
     )
 }
