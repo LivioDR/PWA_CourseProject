@@ -22,29 +22,6 @@ const getPokemonTypes = (pokeData) => {
     return types
 }
 
-//Plays the sound effect for the used attack
-const playAttackSound = (atkName) => {
-    const sfxIcon = document.getElementById('sfx')
-    if(sfxIcon.classList.contains('fi-ss-volume')){
-        const sfx = new Audio(`/assets/audio/sfx/${atkName}.mp3`)
-        sfx.play()
-    }
-}
-
-const setupSfxButton = () => {
-    const sfxIcon = document.getElementById('sfx')
-    sfxIcon.addEventListener('click',()=>{
-        if(sfxIcon.classList.contains('fi-ss-volume')){
-            sfxIcon.classList.remove('fi-ss-volume')
-            sfxIcon.classList.add('fi-ss-volume-mute')
-        }
-        else{
-            sfxIcon.classList.remove('fi-ss-volume-mute')
-            sfxIcon.classList.add('fi-ss-volume')
-        }
-    })
-}
-
 // Gets a random attack from the arrays passed as an argument
 const getRandomAtack = (atks) => {
     return atks[Math.floor(Math.random() * atks.length)]
@@ -92,30 +69,8 @@ const getTypeMultiplier = async(atkType, defenderType) => {
     return 1
 }
 
-// Gets the actual Hp of the pokemon based on its level and other stats
-const getHp = (pokeStats, level = 50, iv = 6, ev = 0) => {
-    // Formula used from gen III onwards
-    return (Math.floor(0.01 * ((2 * pokeStats.MaxHp) + iv + Math.floor(0.25 * ev))) * level) + level + 10
-}
-
-// Calculates the HP for each pokemon and sets it on the stats object in local storage
-const setHpStats = () => {
-    let myStats = JSON.parse(localStorage.getItem('stats'))
-    let rivalStats = JSON.parse(localStorage.getItem('rivalStats'))
-
-    myStats.MaxHp = getHp(myStats)
-    myStats.Hp = myStats.MaxHp
-
-    rivalStats.MaxHp = getHp(rivalStats)
-    rivalStats.Hp = rivalStats.MaxHp
-
-    localStorage.setItem('stats',JSON.stringify(myStats))
-    localStorage.setItem('rivalStats', JSON.stringify(rivalStats))
-}
-
-
 // Returns true/false depending on if the attack was a critical hit or not
-const isCriticalHit = (chance = 24) => {
+const isCriticalHit = (chance = 24) => { // the chance by default of landing a critical hit in the latests installments is 1/24
     const roll = Math.floor(Math.random() * chance) + 1
     if(roll == 1){
         return true
