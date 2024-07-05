@@ -3,7 +3,7 @@ import React from "react";
 import { getCurrentLevelExp } from "@/services/battleLogic";
 import NameLevelContainer from "../NameLevelContainer/NameLevelContainer";
 import PokeImage from "../PokeImage/PokeImage";
-import { filterPokemonMovesByLevel, getPokemonCry, getPokemonData } from "@/services/getPokemonData";
+import { filterPokemonMovesByLevel, getPokemonCry, getPokemonData, getStatsForLevel } from "@/services/getPokemonData";
 
 const cardStyle = {
     container: {
@@ -42,8 +42,12 @@ const PokeCard = ({id, name, lvl, exp, image, selected, setSelected, setPokemonD
         // gather all data an store it in state
         let allData = await getPokemonData(id)
         allData = filterPokemonMovesByLevel(allData, lvl)
+        allData.baseStats = getStatsForLevel(allData.baseStats, lvl)
+        allData.level = lvl
         setPokemonData(allData)
-        window.localStorage.setItem('selectedPokemon',allData)
+        if(localStorage in window){
+            window.localStorage.setItem('selectedPokemon',JSON.stringify(allData))
+        }
         setIsDataReady(true)
     }
 
