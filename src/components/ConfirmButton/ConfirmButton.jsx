@@ -11,7 +11,7 @@ const ConfirmButton = ({route, ready, confirmText = 'Confirm', loadingText = 'Lo
     }
     else{
         return(
-            <button className="confirmWrapper" disabled>
+            <button className="confirmWrapper loading" disabled>
                 <p className="confirmText">{loadingText}</p>
             </button>
         )
