@@ -15,3 +15,6 @@
     font-size: medium;
     color: black;
 }
+.loading {
+    background-color: lightgrey;
+}
