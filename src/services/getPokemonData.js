@@ -74,7 +74,10 @@ const getPokemonAttacksFromAllMoves = async(moves) => {
     for(let i=0; i<moves.length; i++){
         const url = moves[i].move.url
         let attackData = await getAttackInfo(url)
-        if(attackData.power > 0 && moves[i].version_group_details[0].move_learn_method.name != "machine"){ // getting only the damaging moves that are not learned with a TM/HM
+        if(attackData.power > 0 && // getting only the damaging moves
+            moves[i].version_group_details[0].move_learn_method.name != "machine" && // that are not learned with a TM/HM
+            moves[i].version_group_details[0].move_learn_method.name != "egg") // or egg moves
+            {
             attacks.push({
                 id: attackData.id,
                 accuracy: attackData.accuracy,
@@ -84,7 +87,7 @@ const getPokemonAttacksFromAllMoves = async(moves) => {
                 maxPp: attackData.pp,
                 damage: attackData.damage,
                 type: attackData.type,
-                label: `${attackData.name[0].name} | Damage: ${attackData.damage == 'physical' ? String.fromCodePoint('0x1F4A5') : String.fromCodePoint('0x1F300')} | Power: ${attackData.power} | ${String.fromCodePoint('0x1F3AF')} ${attackData.accuracy}%`,
+                label: `${attackData.name[0].name} | ${attackData.damage == 'physical' ? String.fromCodePoint('0x1F4A5') : String.fromCodePoint('0x1F300')} | Power: ${attackData.power} | ${String.fromCodePoint('0x1F3AF')} ${attackData.accuracy}%`,
                 minLevel: moves[i].version_group_details[0].level_learned_at,
             })
         }
