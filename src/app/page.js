@@ -30,7 +30,7 @@ export default function Home() {
       }
       {
         battlePage &&
-        <BattlePage pokemonData={pokemonData} rivalPokemonData={rivalPokemonData} />
+        <BattlePage pokemonData={pokemonData} rivalPokemonData={rivalPokemonData} setPokemonData={setPokemonData} setRivalPokemonData={setRivalPokemonData} />
       }
     </>
   );

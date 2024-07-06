@@ -1,18 +1,19 @@
-import React from "react";
+'use client'
+import React, {useEffect, useState} from "react";
+import BattleContainer from "@/components/BattleComponents/BattleContainer/BattleContainer";
+import { startBattle } from "@/services/battleLogic";
 
-const BattlePage = ({pokemonData, rivalPokemonData}) => {
+const BattlePage = ({pokemonData, rivalPokemonData, setPokemonData, setRivalPokemonData }) => {
+
+    const [text, setText] = useState('')
+
+    useEffect(()=>{
+        setText('Battle started')
+        startBattle(pokemonData, setPokemonData, rivalPokemonData, setRivalPokemonData, setText)
+    },[])
 
     return(
-        <>
-        <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', width: '100%'}}>
-            <div style={{width: '50%'}}>
-                <p>{JSON.stringify(pokemonData)}</p>
-            </div>
-            <div style={{width: '50%'}}>
-                <p>{JSON.stringify(rivalPokemonData)}</p>
-            </div>
-        </div>
-        </>
+        <BattleContainer pokemonData={pokemonData} rivalPokemonData={rivalPokemonData} battleText={text} />
     )
 }
 export default BattlePage
