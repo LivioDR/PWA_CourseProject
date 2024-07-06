@@ -7,7 +7,7 @@ import PokeStats from "@/components/PokeStats/PokeStats";
 import getRivalPokemonData from "@/services/getRivalPokemon";
 import React, { useState, useEffect } from "react";
 
-const MoveSelectionPage = ({nextPage, pokemonData, selectedMoves, setSelectedMoves, setRivalPokemonData}) => {
+const MoveSelectionPage = ({nextPage, pokemonData = null, selectedMoves = null, setSelectedMoves, setRivalPokemonData}) => {
 
     const [movesNumberExceeded, setMovesNumberExceeded] = useState(false)
     const [noMovesSelected, setNoMovesSelected] = useState(false)
