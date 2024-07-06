@@ -16,7 +16,7 @@ const getRivalPokemonData = async(level) => {
     let pokemonData = await getPokemonData(id)
     pokemonData = filterPokemonMovesByLevel(pokemonData, level)
     pokemonData.baseStats = getStatsForLevel(pokemonData.baseStats, level)
-    pokemonData.level = level
+    pokemonData.level = Math.ceil(Math.random() * level) // randomizing the enemy level to make it more accessible
 
     // Reducing the number of possible attacks to 4 or less
     if(pokemonData.moves.length > 4){
