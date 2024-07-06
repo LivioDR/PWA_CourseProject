@@ -1,8 +1,6 @@
 const getPokemonStats = (data) => {
     
-    let statsToStore = {
-
-    }
+    let statsToStore = {}
 
     for(let i=0; i<data.length; i++){
         let name = data[i].stat.name
@@ -121,6 +119,7 @@ const getPokemonData = async(pokemonId) => {
         cry: result.cries.latest,
         moves: moves,
         baseStats: stats,
+        baseExp: result.base_experience,
         name: result.name,
         types: result.types.map(type => type.type.name)
     }
