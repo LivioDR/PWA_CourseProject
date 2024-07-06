@@ -1,25 +1,14 @@
 import toCapitalCase from "./nameFormatter.js"
 
 // Returns the order of attacks for the turn
-const getTurnOrder = () => {
-    const myStats = JSON.parse(localStorage.getItem('stats'))
-    const rivalStats = JSON.parse(localStorage.getItem('rivalStats'))
-
+const getTurnOrder = (myStats, rivalStats) => {
+    
     if(myStats.Spd > rivalStats.Spd){
         return ['yourPokemon', 'rivalPokemon']
     }
     else {
         return ['rivalPokemon', 'yourPokemon']
     }
-}
-
-//Gets the pokemon types
-const getPokemonTypes = (pokeData) => {
-    let types = []
-    for(let i=0; i<pokeData.types.length; i++){
-        types.push(pokeData.types[i].type.name)
-    }
-    return types
 }
 
 // Gets a random attack from the arrays passed as an argument
@@ -30,7 +19,7 @@ const getRandomAtack = (atks) => {
 // Returns the amount of experience points earned during battle by defeating the opponent pokemon
 const getEarnedExperience = (myLevel, enemyLevel, baseExp, affection = 1, luckyEgg = 1, trainerModifier = 1, shareExp = 1, pastEvoLevel = 1, boostPower = 1) => {
     const deltaExp = ( ((baseExp * enemyLevel) / 5) * (1/shareExp) * Math.pow((((2 * enemyLevel) + 10)/(myLevel + enemyLevel + 10)),2.5) + 1 ) * affection * trainerModifier * pastEvoLevel * boostPower * luckyEgg
-    return deltaExp
+    return Math.round(deltaExp)
 }
 
 // Returns the experience needed to achieve a level
@@ -99,7 +88,7 @@ const isAttackSuccessfull = (acc) => {
     }
 }
 
-const setDamage = async(atkPokeStats, defPokeStats, atk, defPokeType, atkLevel = 50) => {
+const setDamage = async(atkPokeStats, defPokeStats, atk, defPokeType, atkLevel) => {
     const crit = isCriticalHit() ? 1.5 : 1
     const typeMult = await getTypeMultiplier(atk.type, defPokeType)
     const rand = getRandomDamageMultiplier()
@@ -132,27 +121,138 @@ const timer = (ms) => {
     return new Promise(res => setTimeout(res, ms));
 }
 
-const setText = async(text, readTime = 4000, pauseTime = 300) => {
-    const textField = document.getElementById('battleTextBox')
-    textField.innerText = text
+const setTextWithDelay = async(text, setText, readTime = 4000, pauseTime = 300) => {
+    setText(text)
     await timer(readTime)
-    textField.innerText = ''
+    setText('')
     await timer(pauseTime)
 } 
 
-const typeMessage = async(typeMult) => {
+const typeMessage = async(typeMult, setText) => {
     if(typeMult == 0){
-        await setText("It doesn't affect the pokemon...")
+        await setTextWithDelay("It doesn't affect the pokemon...", setText)
     }
     else if(typeMult == 2){
-        await setText("It's super effective!")
+        await setTextWithDelay("It's super effective!", setText)
     }
     else if(typeMult == 0.5){
-        await setText("It's not very effective...")
+        await setTextWithDelay("It's not very effective...", setText)
     }
     else{
         await timer(4000)
     }
 }
 
-export { getCurrentLevelExp, getEarnedExperience}
+const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonData, setRivalPokemonData, setText) => {
+    
+    // get the rival moves on a variable for easier management. Already have mines received as an argument
+    let rivalAttacks = rivalPokemonData.moves
+    
+    // get the names on variables for easier management
+    const myPokemon = pokemonData.name.toUpperCase()
+    const rivalPokemon = rivalPokemonData.name.toUpperCase()
+    
+    // get the order of attacks for this turn
+    const turns = getTurnOrder(pokemonData.baseStats, rivalPokemonData.baseStats)
+    let nextAttacker = turns[0]
+    
+    await setTextWithDelay(`A wild ${rivalPokemon} appears!`, setText)
+    await setTextWithDelay(`Go ${myPokemon}!`, setText)
+    
+    let isBattleOverFlag = false
+    
+    while(!isBattleOverFlag){
+        
+        // get the stats on variables for easier management
+        let myStats = pokemonData.baseStats
+        let rivalStats = rivalPokemonData.baseStats
+
+        // check the turns and start the sequence
+        if(nextAttacker == 'yourPokemon'){
+            
+            // select a random attack to use
+            const attack = await getRandomAtack(myAttacks)
+            await setTextWithDelay(`${myPokemon} used ${attack.name}!`, setText)
+            
+            // checks accuracy
+            if(isAttackSuccessfull(attack.accuracy)){
+            
+                // calculates damage of the attack and updates the state
+                const rivalStatsAfterAttack = await setDamage(myStats, rivalStats, attack, rivalPokemon.types, pokemonData.level)
+                setRivalPokemonData(prev => {
+                    let newRivalPokemonData = {
+                        ...prev,
+                        baseStats: rivalStatsAfterAttack
+                    }
+                    return newRivalPokemonData
+                })
+
+                // displays the attack damage message
+                const typeMult = await getTypeMultiplier(attack.type, rivalPokemon.types)
+                await typeMessage(typeMult, setText)
+
+                // checks if the battle is over
+                if(rivalStatsAfterAttack.Hp == 0){
+                    isBattleOverFlag = true
+                    battleOverSequence(myPokemon, rivalPokemon, true, pokemonData.level, rivalPokemonData.level, rivalPokemonData.baseExp, setText)
+                }
+            }
+            else{
+                await setTextWithDelay('But missed...', setText)
+            }
+        }
+        // if the rival attacks:
+        else{
+            // select a random attack
+            const attack = await getRandomAtack(rivalAttacks)
+            await setTextWithDelay(`Enemy ${rivalPokemon} used ${attack.name}!`, setText)
+
+            // checks accuracy
+            if(isAttackSuccessfull(attack.accuracy)){
+                // calculates the damage and updates the state
+                const myStatsAfterAttack = await setDamage(rivalStats, myStats, attack, pokemonData.types, rivalPokemonData.level)
+                console.log(myStats)
+                console.log(myStatsAfterAttack)
+                setPokemonData(prev => {
+                    let newPokemonData = {
+                        ...prev,
+                        baseStats: myStatsAfterAttack
+                    }
+                    return newPokemonData
+                })
+    
+                // displays the attack damage message
+                const typeMult = await getTypeMultiplier(attack.type, pokemonData.types)
+            
+                // checks if the battle is over
+                if(myStatsAfterAttack.Hp == 0){
+                    isBattleOverFlag = true
+                    battleOverSequence(myPokemon, rivalPokemon, false, pokemonData.level, rivalPokemonData.level, pokemonData.baseExp, setText)
+                }
+            }
+            else{
+                await setTextWithDelay('But missed...', setText)
+            }
+        }
+
+        // set the next attacker
+        nextAttacker == turns[0] ? nextAttacker = turns[1] : nextAttacker = turns[0]
+    }
+
+}
+
+const battleOverSequence = async(myPokeName, rivalPokeName, didPlayerWin, myLevel, rivalLevel, baseExp, setText) => {
+    if(didPlayerWin){
+        await setTextWithDelay(`Enemy ${rivalPokeName} has fainted.`, setText)
+        await setTextWithDelay(`${myPokeName} has won!`, setText)
+        const exp = getEarnedExperience(myLevel, rivalLevel, baseExp)
+        await setTextWithDelay(`${myPokeName} has earned ${exp} experience points.`, setText)
+        // DATABASE UPDATE LOGIC HERE
+    }
+    else{
+        await setTextWithDelay(`${myPokeName} has fainted.`, setText)
+        await setTextWithDelay(`Enemy ${rivalPokeName} has ran away!`, setText)
+    }
+}
+
+export { getCurrentLevelExp, getEarnedExperience, startBattle}
