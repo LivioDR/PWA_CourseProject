@@ -4,7 +4,11 @@ import { filterPokemonMovesByLevel, getPokemonData, getStatsForLevel } from './g
 const maxPokemonNumber = 151
 
 const getRandomPokemonId = () => {
-    return Math.ceil(Math.random() * maxPokemonNumber)
+    let id = 132
+    while(id == 132){
+        id = Math.ceil(Math.random() * maxPokemonNumber)
+    }
+    return id
 }
 
 const getRivalPokemonData = async(level) => {
