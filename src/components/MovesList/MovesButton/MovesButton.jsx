@@ -21,6 +21,7 @@ const MovesButton = ({move, addMove, removeMove, actionable = true}) => {
             return(
                 <button className="movesButton selected" onClick={()=>removeThisMove()}>
                     <div className="movesButtonTextWrapper">
+                        <p className="movesButtonText">[{move.type.toUpperCase()}]</p>
                         {arrayFromLabel.map(text=><p key={move.id + text} className="movesButtonText">{text}</p>)}
                     </div>
                 </button>
@@ -30,6 +31,7 @@ const MovesButton = ({move, addMove, removeMove, actionable = true}) => {
             return(
                 <button className="movesButton not-selected" onClick={()=>addThisMove()}>
                     <div className="movesButtonTextWrapper">
+                    <p className="movesButtonText">[{move.type.toUpperCase()}]</p>
                         {arrayFromLabel.map(text=><p key={move.id + text} className="movesButtonText">{text}</p>)}
                     </div>
                 </button>

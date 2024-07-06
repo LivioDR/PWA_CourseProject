@@ -14,10 +14,16 @@
     width: 100%;
     height: 100%;
 }
+.movesButtonTextWrapper > p:nth-child(3){
+    width: 5%;
+}
+.movesButtonTextWrapper > p:nth-child(1){
+    font-size: small;
+}
 .movesButtonText {
-    width: 25%;
+    width: 22%;
     margin: 0%;
-    font-size: large;
+    font-size: medium;
 }
 .selected {
     background-color: green;
