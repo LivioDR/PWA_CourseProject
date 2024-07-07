@@ -184,6 +184,7 @@ const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonDa
                         ...prev,
                         baseStats: rivalStatsAfterAttack
                     }
+                    console.log(`Enemy HP of ${prev.baseStats.Hp} is reduced to ${rivalStatsAfterAttack.Hp}`)
                     return newRivalPokemonData
                 })
 
@@ -211,18 +212,18 @@ const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonDa
             if(isAttackSuccessfull(attack.accuracy)){
                 // calculates the damage and updates the state
                 const myStatsAfterAttack = await setDamage(rivalStats, myStats, attack, pokemonData.types, rivalPokemonData.level)
-                console.log(myStats)
-                console.log(myStatsAfterAttack)
                 setPokemonData(prev => {
                     let newPokemonData = {
                         ...prev,
                         baseStats: myStatsAfterAttack
                     }
+                    console.log(`My HP of ${prev.baseStats.Hp} is reduced to ${myStatsAfterAttack.Hp}`)
                     return newPokemonData
                 })
     
                 // displays the attack damage message
                 const typeMult = await getTypeMultiplier(attack.type, pokemonData.types)
+                await typeMessage(typeMult, setText)
             
                 // checks if the battle is over
                 if(myStatsAfterAttack.Hp == 0){
