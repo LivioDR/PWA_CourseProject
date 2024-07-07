@@ -191,19 +191,7 @@ const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonDa
                 // calculates damage of the attack and updates the state
                 console.log("About to calculate damage")
                 const rivalStatsAfterAttack = await setDamage(myStats, rivalStats, attack, rivalPokemon.types, pokemonData.level, setRivalPokemonData)
-                /*
-                setRivalPokemonData(prev => {
-                    console.log("Setting damage")
-                    let newRivalPokemonData = {
-                        ...prev,
-                        baseStats: rivalStatsAfterAttack
-                    }
-                    console.log(newRivalPokemonData)
-                    console.log(`Enemy HP of ${prev.baseStats.Hp} is reduced to ${rivalStatsAfterAttack.Hp}`)
-                    return newRivalPokemonData
-                })
-                */
-
+                
                 // displays the attack damage message
                 const typeMult = await getTypeMultiplier(attack.type, rivalPokemon.types)
                 await typeMessage(typeMult, setText)
@@ -230,16 +218,6 @@ const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonDa
             if(isAttackSuccessfull(attack.accuracy)){
                 // calculates the damage and updates the state
                 const myStatsAfterAttack = await setDamage(rivalStats, myStats, attack, pokemonData.types, rivalPokemonData.level, setPokemonData)
-                /*
-                setPokemonData(prev => {
-                    let newPokemonData = {
-                        ...prev,
-                        baseStats: myStatsAfterAttack
-                    }
-                    console.log(`My HP of ${prev.baseStats.Hp} is reduced to ${myStatsAfterAttack.Hp}`)
-                    return newPokemonData
-                })
-                */
     
                 // displays the attack damage message
                 const typeMult = await getTypeMultiplier(attack.type, pokemonData.types)
@@ -264,6 +242,7 @@ const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonDa
 }
 
 const battleOverSequence = async(myPokeName, rivalPokeName, didPlayerWin, myLevel, rivalLevel, baseExp, setText) => {
+    console.log("Entered battle over sequence")
     if(didPlayerWin){
         await setTextWithDelay(`Enemy ${rivalPokeName} has fainted.`, setText)
         await setTextWithDelay(`${myPokeName} has won!`, setText)
