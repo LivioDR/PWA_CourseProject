@@ -1,10 +1,10 @@
 'use client'
 import Metadata from "@/components/Metadata";
 import Header from "@/components/Header/Header";
-import SelectionPage from "@/pages/SelectionPage";
+import SelectionPage from "@/components/SelectionPage";
 import { useState } from "react";
-import MoveSelectionPage from "@/pages/MoveSelectionPage";
-import BattlePage from "@/pages/BattlePage";
+import MoveSelectionPage from "@/components/MoveSelectionPage";
+import BattlePage from "@/components/BattlePage";
 
 export default function Home() {
 
