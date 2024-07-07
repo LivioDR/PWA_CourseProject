@@ -87,7 +87,6 @@ const isAttackSuccessfull = (acc) => {
 }
 
 const setDamage = async(atkPokeStats, defPokeStats, atk, defPokeType, atkLevel, setDefData) => {
-    console.log("Entered setDamage function")
     const crit = isCriticalHit() ? 1.5 : 1
     const typeMult = await getTypeMultiplier(atk.type, defPokeType)
     const rand = getRandomDamageMultiplier()
@@ -106,7 +105,6 @@ const setDamage = async(atkPokeStats, defPokeStats, atk, defPokeType, atkLevel, 
     }
 
     const damage = Math.round((((((2*atkLevel/5)+2)* atk.power * (atkStat/defStat))/50)+2) * crit * typeMult * rand)
-    console.log(`Damage: ${damage}`)
     
     if(damage > defPokeStats.Hp){
         defPokeStats.Hp = 0
@@ -114,7 +112,6 @@ const setDamage = async(atkPokeStats, defPokeStats, atk, defPokeType, atkLevel, 
     else{
         defPokeStats.Hp -= damage
     }
-    console.log(`HP: ${defPokeStats.Hp}/${defPokeStats.MaxHp}`)
     setDefData(prev => {
         const newData = {
             ...prev,
@@ -155,7 +152,6 @@ const typeMessage = async(typeMult, setText) => {
 }
 
 const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonData, setRivalPokemonData, setText) => {
-    console.log("Started battle")
     // get the rival moves on a variable for easier management. Already have mines received as an argument
     let rivalAttacks = rivalPokemonData.moves
     
@@ -173,23 +169,18 @@ const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonDa
     let isBattleOverFlag = false
     
     do{
-        console.log("Entered battle loop")
         // get the stats on variables for easier management
         let myStats = pokemonData.baseStats
         let rivalStats = rivalPokemonData.baseStats
 
         // check the turns and start the sequence
         if(nextAttacker == 'yourPokemon'){
-            console.log("My turn")
             // select a random attack to use
             const attack = await getRandomAtack(myAttacks)
             await setTextWithDelay(`${myPokemon} used ${attack.name}!`, setText)
-            console.log("Checks attack")
             // checks accuracy
             if(isAttackSuccessfull(attack.accuracy)){
-                console.log("Attack sucessfull")
                 // calculates damage of the attack and updates the state
-                console.log("About to calculate damage")
                 const rivalStatsAfterAttack = await setDamage(myStats, rivalStats, attack, rivalPokemon.types, pokemonData.level, setRivalPokemonData)
                 
                 // displays the attack damage message
@@ -203,13 +194,11 @@ const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonDa
                 }
             }
             else{
-                console.log("Attack failed")
                 await setTextWithDelay('But missed...', setText)
             }
         }
         // if the rival attacks:
         else{
-            console.log("Opponent turn")
             // select a random attack
             const attack = await getRandomAtack(rivalAttacks)
             await setTextWithDelay(`Enemy ${rivalPokemon} used ${attack.name}!`, setText)
@@ -242,7 +231,6 @@ const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonDa
 }
 
 const battleOverSequence = async(myPokeName, rivalPokeName, didPlayerWin, myLevel, rivalLevel, baseExp, setText) => {
-    console.log("Entered battle over sequence")
     if(didPlayerWin){
         await setTextWithDelay(`Enemy ${rivalPokeName} has fainted.`, setText)
         await setTextWithDelay(`${myPokeName} has won!`, setText)
