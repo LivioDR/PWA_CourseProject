@@ -7,20 +7,17 @@ import PokeStats from "@/components/PokeStats/PokeStats";
 import getRivalPokemonData from "@/services/getRivalPokemon";
 import React, { useState, useEffect } from "react";
 
-const MoveSelectionPage = ({nextPage, pokemonData = null, selectedMoves = null, setSelectedMoves, setRivalPokemonData}) => {
+const MoveSelectionPage = ({nextPage, pokemonData, selectedMoves, setSelectedMoves, setRivalPokemonData}) => {
 
     const [movesNumberExceeded, setMovesNumberExceeded] = useState(false)
     const [noMovesSelected, setNoMovesSelected] = useState(false)
     const [areMovesOkay, setAreMovesOkay] = useState(false)
     const [loadingRival, setLoadingRival] = useState(false)
 
-    const displayInfoOnConsoleAndMoveToBattle = async() => {
-        console.log(pokemonData)
-        console.log(selectedMoves)
+    const moveToBattle = async() => {
         setLoadingRival(true)
         let rival = await getRivalPokemonData(pokemonData.level)
         setRivalPokemonData(rival)
-        console.warn(rival)
         setLoadingRival(false)
         nextPage()
     }
@@ -71,7 +68,7 @@ const MoveSelectionPage = ({nextPage, pokemonData = null, selectedMoves = null, 
         <MovesSelected moves={selectedMoves} />
         {
             areMovesOkay &&
-            <ConfirmButton confirmText="Start Battle" loadingText="Searching for an opponent" ready={!loadingRival} route={()=>displayInfoOnConsoleAndMoveToBattle()} />
+            <ConfirmButton confirmText="Start Battle" loadingText="Searching for an opponent" ready={!loadingRival} route={()=>moveToBattle()} />
         }
         </>
     )

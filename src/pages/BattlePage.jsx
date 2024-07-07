@@ -3,12 +3,11 @@ import React, {useEffect, useState} from "react";
 import BattleContainer from "@/components/BattleComponents/BattleContainer/BattleContainer";
 import { startBattle } from "@/services/battleLogic";
 
-const BattlePage = ({pokemonData = null, pokemonAttacks = null, rivalPokemonData = null, setPokemonData, setRivalPokemonData }) => {
+const BattlePage = ({pokemonData, pokemonAttacks, rivalPokemonData, setPokemonData, setRivalPokemonData }) => {
 
-    const [text, setText] = useState('')
+    const [text, setText] = useState()
 
     const beginBattleSequence = () => {
-        setText('Battle started')
         startBattle(pokemonData, pokemonAttacks, setPokemonData, rivalPokemonData, setRivalPokemonData, setText)
     }
 
