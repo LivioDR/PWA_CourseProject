@@ -45,9 +45,6 @@ const PokeCard = ({id, name, lvl, exp, image, selected, setSelected, setPokemonD
         allData.baseStats = getStatsForLevel(allData.baseStats, lvl)
         allData.level = lvl
         setPokemonData(allData)
-        if(localStorage in window){
-            window.localStorage.setItem('selectedPokemon',JSON.stringify(allData))
-        }
         setIsDataReady(true)
     }
 
