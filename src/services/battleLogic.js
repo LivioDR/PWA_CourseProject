@@ -86,7 +86,7 @@ const isAttackSuccessfull = (acc) => {
     }
 }
 
-const setDamage = async(atkPokeStats, defPokeStats, atk, defPokeType, atkLevel) => {
+const setDamage = async(atkPokeStats, defPokeStats, atk, defPokeType, atkLevel, setDefData) => {
     console.log("Entered setDamage function")
     const crit = isCriticalHit() ? 1.5 : 1
     const typeMult = await getTypeMultiplier(atk.type, defPokeType)
@@ -115,6 +115,16 @@ const setDamage = async(atkPokeStats, defPokeStats, atk, defPokeType, atkLevel) 
         defPokeStats.Hp -= damage
     }
     console.log(`HP: ${defPokeStats.Hp}/${defPokeStats.MaxHp}`)
+    setDefData(prev => {
+        const newData = {
+            ...prev,
+            baseStats: {
+                ...prev.baseStats,
+                Hp: defPokeStats.Hp
+            }
+        }
+        return newData
+    })
     return defPokeStats
 }
 
@@ -180,7 +190,8 @@ const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonDa
                 console.log("Attack sucessfull")
                 // calculates damage of the attack and updates the state
                 console.log("About to calculate damage")
-                const rivalStatsAfterAttack = await setDamage(myStats, rivalStats, attack, rivalPokemon.types, pokemonData.level)
+                const rivalStatsAfterAttack = await setDamage(myStats, rivalStats, attack, rivalPokemon.types, pokemonData.level, setRivalPokemonData)
+                /*
                 setRivalPokemonData(prev => {
                     console.log("Setting damage")
                     let newRivalPokemonData = {
@@ -191,6 +202,7 @@ const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonDa
                     console.log(`Enemy HP of ${prev.baseStats.Hp} is reduced to ${rivalStatsAfterAttack.Hp}`)
                     return newRivalPokemonData
                 })
+                */
 
                 // displays the attack damage message
                 const typeMult = await getTypeMultiplier(attack.type, rivalPokemon.types)
@@ -217,7 +229,8 @@ const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonDa
             // checks accuracy
             if(isAttackSuccessfull(attack.accuracy)){
                 // calculates the damage and updates the state
-                const myStatsAfterAttack = await setDamage(rivalStats, myStats, attack, pokemonData.types, rivalPokemonData.level)
+                const myStatsAfterAttack = await setDamage(rivalStats, myStats, attack, pokemonData.types, rivalPokemonData.level, setPokemonData)
+                /*
                 setPokemonData(prev => {
                     let newPokemonData = {
                         ...prev,
@@ -226,6 +239,7 @@ const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonDa
                     console.log(`My HP of ${prev.baseStats.Hp} is reduced to ${myStatsAfterAttack.Hp}`)
                     return newPokemonData
                 })
+                */
     
                 // displays the attack damage message
                 const typeMult = await getTypeMultiplier(attack.type, pokemonData.types)
