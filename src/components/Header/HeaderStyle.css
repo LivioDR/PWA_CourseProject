@@ -7,7 +7,8 @@
 
 .headerTitle {
     color: white;
-    -webkit-text-stroke: 1px black;
+    /* -webkit-text-stroke: 1px black; */
     text-align: left;
     padding-left: 2%;
+    font-size: large;
 }

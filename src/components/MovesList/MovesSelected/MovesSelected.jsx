@@ -3,7 +3,7 @@ import MovesButton from "../MovesButton/MovesButton";
 
 const MovesSelected = ({moves}) => {
     return(
-        <div style={{width: '50%', textAlign: 'center'}}>
+        <div style={{width: '100%', textAlign: 'center'}}>
             {
                 moves.length >= 1 &&
                 <h3>Selected Moves</h3>

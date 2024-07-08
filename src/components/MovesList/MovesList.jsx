@@ -2,7 +2,7 @@ import React from "react";
 import MovesButton from "./MovesButton/MovesButton";
 
 const wrapperStyle = {
-    width: '50%',
+    width: '100%',
     height: '50vh',
     overflowY: 'scroll',
 }

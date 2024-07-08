@@ -1,8 +1,8 @@
 .confirmWrapper {
-    width: 25%;
+    width: 50%;
+    margin: 0 auto;
     align-items: center;
     text-align: center;
-    text-justify: center;
     background-color: aqua;
     height: 3em;
     display: flex;

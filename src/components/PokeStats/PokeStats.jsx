@@ -2,8 +2,10 @@ import React from "react";
 import StatBar from "./StatBar/StatBar";
 
 const containerStyle = {
-    width: '400px',
+    width: '90%',
     marginTop: '20px',
+    marginBottom: '20px',
+    marginInline: '5%',
     maxHeight: '200px',
 }
 

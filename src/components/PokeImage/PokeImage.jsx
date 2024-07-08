@@ -9,14 +9,14 @@ const styles = {
 }
 
 
-const PokeImage = ({img , style}) => {
+const PokeImage = ({img , style = {}}) => {
 
     return(
         <>
         <Image
         src={img}
-        width={250}
-        height={250}
+        width={style.width | 250}
+        height={style.height | 250}
         unoptimized
         style={{...styles, ...style}}
         alt={"Pokemon sprite"}
