@@ -2,7 +2,7 @@
 import Metadata from "@/components/Metadata";
 import Header from "@/components/Header/Header";
 import SelectionPage from "@/components/SelectionPage";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MoveSelectionPage from "@/components/MoveSelectionPage";
 import BattlePage from "@/components/BattlePage";
 
@@ -15,6 +15,12 @@ export default function Home() {
   const [selectedMoves, setSelectedMoves] = useState([])
   const [rivalPokemonData, setRivalPokemonData] = useState({})
 
+  useEffect(()=>{
+    // Managing service worker
+    if('serviceWorker' in navigator){
+      navigator.serviceWorker.register('/serviceWorker.js')
+    }
+  },[])
 
   return (
     <>
