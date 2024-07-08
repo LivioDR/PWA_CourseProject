@@ -61,7 +61,6 @@ const getTypeMultiplier = async(atkType, defenderType) => {
     catch(e){
         console.error(e)
     }
-    console.log(`Attack of type ${atkType} does x${multiplier} damage against ${JSON.stringify(defenderType)}`)
     return multiplier
 }
 
