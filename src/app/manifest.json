@@ -1,6 +1,6 @@
 {  
-    "short_name": "PokeBattleSim",  
-    "name": "Pokemon Battle Simulator",  
+    "short_name": "PokeBattle RPG",  
+    "name": "Pokemon Battle RPG",  
     "icons": [
         {
           "src": "favicon.ico",
