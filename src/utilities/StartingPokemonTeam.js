@@ -1,27 +1,27 @@
 const StartingPokemonTeam = {
-    1: {
-        name: 'bulbasaur',
-        image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/1.gif',
-        level: 5,
-        exp: 135,
+    2: {
+        name: 'ivysaur',
+        image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/2.gif',
+        level: 25,
+        exp: 12000,
     },
-    4: {
-        name: 'charmander',
-        image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/4.gif',
-        level: 5,
-        exp: 135,
+    5: {
+        name: 'charmeleon',
+        image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/5.gif',
+        level: 25,
+        exp: 12000,
     },
-    7: {
-        name: 'squirtle',
-        image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/7.gif',
-        level: 5,
-        exp: 135,
+    8: {
+        name: 'wartortle',
+        image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/8.gif',
+        level: 25,
+        exp: 12000,
     },
     25: {
         name: 'pikachu',
         image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/25.gif',
-        level: 5,
-        exp: 135,
+        level: 25,
+        exp: 12000,
     }
 }
 export default StartingPokemonTeam
