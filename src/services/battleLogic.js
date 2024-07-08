@@ -171,7 +171,7 @@ const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonDa
     const turns = getTurnOrder(pokemonData.baseStats, rivalPokemonData.baseStats)
     let nextAttacker = turns[0]
     
-    await setTextWithDelay(`A wild ${rivalPokemon} appears!`, setText)
+    await setTextWithDelay(`A level ${rivalPokemonData.level} wild ${rivalPokemon} appears!`, setText)
     await setTextWithDelay(`Go ${myPokemon}!`, setText)
     
     let isBattleOverFlag = false
