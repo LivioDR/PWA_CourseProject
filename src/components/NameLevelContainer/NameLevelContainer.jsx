@@ -4,6 +4,7 @@ import ExpBar from "./ExpBar/ExpBar";
 const styles = {
     wrapper: {
         width: '90%',
+        margin: '2%',
     },
     textContainer: {
         textAlign: 'center',

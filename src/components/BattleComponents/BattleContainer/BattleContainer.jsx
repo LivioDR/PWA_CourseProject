@@ -6,7 +6,9 @@ import BattleText from "../BattleText/BattleText";
 
 const imageStyle = {
     margin: '0%',
-    maxHeigth: '80%',
+    // height: '50%',
+    width: '50%',
+    minWidth: '150px',
 }
 
 
@@ -16,16 +18,16 @@ const BattleContainer = ({pokemonData, rivalPokemonData, battleText}) => {
             <div className="battleContainerRow" id="battleRivalGraph" style={{display: 'grid'}}>
                 <HpBar stats={rivalPokemonData.baseStats} reduceToLeft={true} />
                 <div className="imageBattleContainer" style={{justifySelf: 'end'}}>
-                    <PokeImage img={rivalPokemonData.front_image} style={imageStyle} />
+                    <PokeImage img={rivalPokemonData.front_image} style={imageStyle} xAlignment="end" />
                 </div>
             </div>
-            <div className="battleContainerRow" id="battlePokemonGraph">
-                <div className="imageBattleContainer">
-                    <PokeImage img={pokemonData.back_image} style={imageStyle} />
+            <div className="battleContainerRow" id="battlePokemonGraph" style={{display: 'grid'}}>
+                <div className="imageBattleContainer" style={{justifySelf: 'start'}}>
+                    <PokeImage img={pokemonData.back_image} style={imageStyle} xAlignment="start" />
                 </div>
                 <HpBar stats={pokemonData.baseStats} reduceToLeft={false} />
             </div>
-            <div className="battleContainerRow" id="battleTextGraph">
+            <div className="battleContainerRow" id="battleTextGraph" style={{width: '90%', display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', margin: '5%',}}>
                 <BattleText text={battleText} />
             </div>
         </div>

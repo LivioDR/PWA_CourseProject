@@ -20,7 +20,7 @@ const cardStyle = {
     },
     image: {
         width: '50%',
-        height: '50%',
+        height: '90%',
     }
 }
 
