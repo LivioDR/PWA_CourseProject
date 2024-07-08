@@ -4,6 +4,7 @@ import MovesList from "@/components/MovesList/MovesList";
 import MovesSelected from "@/components/MovesList/MovesSelected/MovesSelected";
 import PokeImage from "@/components/PokeImage/PokeImage";
 import PokeStats from "@/components/PokeStats/PokeStats";
+import { setStabOnMoves } from "@/services/getPokemonData";
 import getRivalPokemonData from "@/services/getRivalPokemon";
 import React, { useState, useEffect } from "react";
 
@@ -16,8 +17,14 @@ const MoveSelectionPage = ({nextPage, pokemonData, selectedMoves, setSelectedMov
 
     const moveToBattle = async() => {
         setLoadingRival(true)
+        // get the opponent data
         let rival = await getRivalPokemonData(pokemonData.level)
         setRivalPokemonData(rival)
+
+        // set STAB on your moves
+        let moves = setStabOnMoves(selectedMoves, pokemonData.types)
+        setSelectedMoves(moves)
+
         setLoadingRival(false)
         nextPage()
     }

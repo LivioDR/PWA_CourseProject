@@ -40,6 +40,13 @@ const SelectionPage = ({pokemonData, setPokemonData, nextPage}) => {
             image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/25.gif',
             level: 25,
             exp: 12000,
+        },
+        {
+            id: 150,
+            name: 'mewtwo',
+            image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/150.gif',
+            level: 50,
+            exp: 125000,
         }
     ]
 

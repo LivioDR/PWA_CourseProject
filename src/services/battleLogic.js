@@ -37,23 +37,32 @@ const getLevelFromExp = (exp) => {
 
 // Returns the type multiplier for the attack type and the defender type
 const getTypeMultiplier = async(atkType, defenderType) => {
-    const typeData = await fetch(`https://pokeapi.co/api/v2/type/${atkType}/`).then(res => res.json()).then(res => res.damage_relations)
-    for(let i=0; i<typeData.double_damage_to.length; i++){
-        if(typeData.double_damage_to[i].name == defenderType){
-            return 2
+    let multiplier = 1
+    try{
+        const typeData = await fetch(`https://pokeapi.co/api/v2/type/${atkType}/`).then(res => res.json()).then(res => res.damage_relations)
+        for(let j=0; j<defenderType.length; j++){
+            for(let i=0; i<typeData.double_damage_to.length; i++){
+                if(typeData.double_damage_to[i].name == defenderType[j]){
+                    multiplier *= 2
+                }
+            }
+            for(let i=0; i<typeData.half_damage_to.length; i++){
+                if(typeData.half_damage_to[i].name == defenderType[j]){
+                    multiplier *= 0.5
+                }
+            }
+            for(let i=0; i<typeData.no_damage_to.length; i++){
+                if(typeData.no_damage_to[i].name == defenderType[j]){
+                    multiplier *= 0
+                }
+            }
         }
     }
-    for(let i=0; i<typeData.half_damage_to.length; i++){
-        if(typeData.half_damage_to[i].name == defenderType){
-            return 0.5
-        }
+    catch(e){
+        console.error(e)
     }
-    for(let i=0; i<typeData.no_damage_to.length; i++){
-        if(typeData.no_damage_to[i].name == defenderType){
-            return 0
-        }
-    }
-    return 1
+    console.log(`Attack of type ${atkType} does x${multiplier} damage against ${JSON.stringify(defenderType)}`)
+    return multiplier
 }
 
 // Returns true/false depending on if the attack was a critical hit or not
@@ -153,7 +162,7 @@ const typeMessage = async(typeMult, setText) => {
 
 const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonData, setRivalPokemonData, setText) => {
     // get the rival moves on a variable for easier management. Already have mines received as an argument
-    let rivalAttacks = rivalPokemonData.moves
+    const rivalAttacks = rivalPokemonData.moves
     
     // get the names on variables for easier management
     const myPokemon = pokemonData.name.toUpperCase()
@@ -181,10 +190,10 @@ const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonDa
             // checks accuracy
             if(isAttackSuccessfull(attack.accuracy)){
                 // calculates damage of the attack and updates the state
-                const rivalStatsAfterAttack = await setDamage(myStats, rivalStats, attack, rivalPokemon.types, pokemonData.level, setRivalPokemonData)
+                const rivalStatsAfterAttack = await setDamage(myStats, rivalStats, attack, rivalPokemonData.types, pokemonData.level, setRivalPokemonData)
                 
                 // displays the attack damage message
-                const typeMult = await getTypeMultiplier(attack.type, rivalPokemon.types)
+                const typeMult = await getTypeMultiplier(attack.type, rivalPokemonData.types)
                 await typeMessage(typeMult, setText)
 
                 // checks if the battle is over

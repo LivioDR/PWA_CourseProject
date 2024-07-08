@@ -71,28 +71,40 @@ const getPokemonAttacksFromAllMoves = async(moves) => {
     let attacks = []
     for(let i=0; i<moves.length; i++){
         const url = moves[i].move.url
-        let attackData = await getAttackInfo(url)
-        if(attackData.power > 0 && // getting only the damaging moves
-            moves[i].version_group_details[0].move_learn_method.name != "machine" && // that are not learned with a TM/HM
-            moves[i].version_group_details[0].move_learn_method.name != "egg") // or egg moves
-            {
-            attacks.push({
-                id: attackData.id,
-                accuracy: attackData.accuracy,
-                name: attackData.name[0].name,
-                power: attackData.power,
-                pp: attackData.pp,
-                maxPp: attackData.pp,
-                damage: attackData.damage,
-                type: attackData.type,
-                label: `${attackData.name[0].name} | ${attackData.damage == 'physical' ? String.fromCodePoint('0x1F4A5') : String.fromCodePoint('0x1F300')} | Power: ${attackData.power} | ${String.fromCodePoint('0x1F3AF')} ${attackData.accuracy}%`,
-                minLevel: moves[i].version_group_details[0].level_learned_at,
-            })
+        if(moves[i].move.url !== 'https://pokeapi.co/api/v2/move/851/'){ // skipping the Tera-Blast move
+            let attackData = await getAttackInfo(url)
+            if(attackData.power > 0 && // getting only the damaging moves
+                moves[i].version_group_details[0].move_learn_method.name != "machine" && // that are not learned with a TM/HM
+                moves[i].version_group_details[0].move_learn_method.name != "egg") // or egg moves
+                {
+                attacks.push({
+                    id: attackData.id,
+                    accuracy: attackData.accuracy,
+                    name: attackData.name[0].name,
+                    power: attackData.power,
+                    pp: attackData.pp,
+                    maxPp: attackData.pp,
+                    damage: attackData.damage,
+                    type: attackData.type,
+                    label: `${attackData.name[0].name} | ${attackData.damage == 'physical' ? String.fromCodePoint('0x1F4A5') : String.fromCodePoint('0x1F300')} | Power: ${attackData.power} | ${String.fromCodePoint('0x1F3AF')} ${attackData.accuracy}%`,
+                    minLevel: moves[i].version_group_details[0].level_learned_at,
+                })
+            }
         }
     }
     attacks.sort((a,b) => a.name < b.name ? -1 : 1)
 
     return attacks
+}
+
+const setStabOnMoves = (movesArray, typesArray) => {
+    let moves = [...movesArray]
+    for(let i=0; i<moves.length; i++){
+        if(typesArray.includes(moves[i].type)){
+            moves[i].power *= 1.5
+        }
+    }
+    return moves
 }
 
 const getPokemonCry = async(id) => {
@@ -137,4 +149,4 @@ const filterPokemonMovesByLevel = (pokemonData, level) => {
 }
 
 
-export {getPokemonData, getPokemonStats, getPokemonAttacksFromAllMoves, getPokemonCry, filterPokemonMovesByLevel, getStatsForLevel}
+export {getPokemonData, getPokemonStats, getPokemonAttacksFromAllMoves, getPokemonCry, filterPokemonMovesByLevel, getStatsForLevel, setStabOnMoves}

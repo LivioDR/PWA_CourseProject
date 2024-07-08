@@ -29,6 +29,12 @@ const getRivalPokemonData = async(level) => {
         while(movesIndexes.length < 4)
         pokemonData.moves = [pokemonData.moves[movesIndexes[0]], pokemonData.moves[movesIndexes[1]], pokemonData.moves[movesIndexes[2]], pokemonData.moves[movesIndexes[3]]]
     }
+    // adding STAB to the rival moves
+    for(let i=0; i<pokemonData.moves.length; i++){
+        if(pokemonData.types.includes(pokemonData.moves[i].type)){
+            pokemonData.moves[i].power *= 1.5
+        }
+    }
 
     return pokemonData
 }
