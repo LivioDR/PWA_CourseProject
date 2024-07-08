@@ -3,7 +3,7 @@ import MovesButton from "./MovesButton/MovesButton";
 
 const wrapperStyle = {
     width: '100%',
-    height: '50vh',
+    height: '35vh',
     overflowY: 'scroll',
 }
 
