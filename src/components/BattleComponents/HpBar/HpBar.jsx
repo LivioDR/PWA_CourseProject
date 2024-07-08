@@ -7,8 +7,8 @@ const HpBar = ({stats, reduceToLeft = true}) => {
 
     return(
         <>
-        <div className="hpWrapper" style={{justifyContent: reduceToLeft ? 'flex-end' : 'flex-start', minHeight: 50}}>
-            <div className="hpBackground">
+        <div className="hpWrapper" style={{ minHeight: 50 }}>
+            <div className="hpBackground" style={{display: 'flex', justifyContent: reduceToLeft ? 'flex-end' : 'flex-start'}}>
                 <div className="hpFill" style={{width: `${remainingHpPercentage}%`}}></div>
             </div>
         </div>
