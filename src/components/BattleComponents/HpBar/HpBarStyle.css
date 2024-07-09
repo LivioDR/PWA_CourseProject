@@ -17,4 +17,5 @@
     height: 100%;
     min-height: 10px;
     background-color: green;
+    transition: 1s;
 }

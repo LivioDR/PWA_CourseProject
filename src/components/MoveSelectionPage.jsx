@@ -65,11 +65,11 @@ const MoveSelectionPage = ({nextPage, pokemonData, selectedMoves, setSelectedMov
         <PokeStats stats={pokemonData.baseStats}/>
         {
             movesNumberExceeded &&
-            <p>You can only set up to four moves</p>
+            <p style={{textAlign: 'center'}}>You can only set up to four moves</p>
         }
         {
             noMovesSelected &&
-            <p>Please select at least one move</p>
+            <p style={{textAlign: 'center'}}>Please select at least one move</p>
         }
         <MovesList moves={pokemonData.moves} addMove={addMove} removeMove={removeMove}/>
         <MovesSelected moves={selectedMoves} />
