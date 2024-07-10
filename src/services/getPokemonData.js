@@ -119,7 +119,6 @@ const getPokemonData = async(pokemonId) => {
     let result = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}/`).then(res => res.json())
     const image = result.sprites.other.showdown.front_default
     const imageBack = result.sprites.other.showdown.back_default
-    const cry = new Audio(result.cries.latest)
 
     const stats = getPokemonStats(result.stats)
     const moves = await getPokemonAttacksFromAllMoves(result.moves)
