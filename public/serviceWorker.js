@@ -11,6 +11,31 @@ self.addEventListener("activate", event => {
 // adding resources from PokeAPI to the cache
 self.addEventListener('fetch', event => {
 
+   // Caching pokemon main info
+   if((event.request.url).startsWith('https://pokeapi.co/api/v2/pokemon/')){
+      event.respondWith(
+         caches.match(event.request.url).then(response => {
+            if(response != undefined){ // match always resolves, but only if succeed it will have a value
+               return response
+            }
+            else{
+               return fetch(event.request).then(response => {
+                  let clone = response.clone() // cloning the response because I will put one copy on cache and return the other one
+
+                  caches.open('pokemon-data').then(cache => {
+                     cache.put(event.request.url, clone) // storing the clone of the response with the request as a key
+                  })
+                  return response
+               })
+            }
+         })
+         .catch(e => {
+            console.error(e)
+         })
+      )
+   }
+
+
    // Caching pokemon moves
    if((event.request.url).startsWith('https://pokeapi.co/api/v2/move/')){
       event.respondWith(
