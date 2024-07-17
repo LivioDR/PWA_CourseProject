@@ -1,6 +1,7 @@
 'use client'
 import React,{ useState } from "react";
 import './MovesButtonStyle.css'
+import TypeBadge from "../TypeBadge/TypeBadge";
 
 const MovesButton = ({move, addMove, removeMove, actionable = true}) => {
     const [isAdded, setIsAdded] = useState(false)
@@ -21,7 +22,7 @@ const MovesButton = ({move, addMove, removeMove, actionable = true}) => {
             return(
                 <button className="movesButton selected" onClick={()=>removeThisMove()}>
                     <div className="movesButtonTextWrapper">
-                        <p className="movesButtonText">[{move.type.toUpperCase()}]</p>
+                        <TypeBadge type={move.type} />
                         {arrayFromLabel.map(text=><p key={move.id + text} className="movesButtonText">{text}</p>)}
                     </div>
                 </button>
@@ -31,7 +32,7 @@ const MovesButton = ({move, addMove, removeMove, actionable = true}) => {
             return(
                 <button className="movesButton not-selected" onClick={()=>addThisMove()}>
                     <div className="movesButtonTextWrapper">
-                    <p className="movesButtonText">[{move.type.toUpperCase()}]</p>
+                        <TypeBadge type={move.type} />
                         {arrayFromLabel.map(text=><p key={move.id + text} className="movesButtonText">{text}</p>)}
                     </div>
                 </button>
@@ -42,7 +43,7 @@ const MovesButton = ({move, addMove, removeMove, actionable = true}) => {
         return(
             <button className="movesButton not-selected">
             <div className="movesButtonTextWrapper">
-                <p className="movesButtonText">[{move.type.toUpperCase()}]</p>
+                <TypeBadge type={move.type} />
                 {arrayFromLabel.map(text=><p key={move.id + text} className="movesButtonText">{text}</p>)}
             </div>
         </button>

@@ -1,0 +1,15 @@
+.typeBadgeContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20%; 
+    height: 80%;
+    border-color: black;
+    border-width: 1px; 
+    border-radius: 20px;
+}
+.typeBadgeText {
+    -webkit-text-stroke: 0.4px black;
+    text-align: center;
+    color: white;
+}

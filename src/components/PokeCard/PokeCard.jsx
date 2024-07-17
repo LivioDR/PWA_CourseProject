@@ -12,7 +12,7 @@ const cardStyle = {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',    
-        maxWidth: '40%',
+        maxWidth: '48%',
         minWidth: '250px',
         maxHeight: '40%',
         margin: '1%',
@@ -53,7 +53,7 @@ const PokeCard = ({id, name, lvl, exp, image, selected, setSelected, setPokemonD
     const percentageToNextLevel = ((exp - currLevelExp)/(expNextLevel - currLevelExp)*100)
 
     return(
-        <div style={{...cardStyle.container, backgroundColor: selected == id ? 'lightgrey' : ''}} onClick={()=>{toggleSelection()}}>
+        <div style={{...cardStyle.container, backgroundColor: selected == id ? 'teal' : '#3D3D3D'}} onClick={()=>{toggleSelection()}}>
             <PokeImage img={image} style={cardStyle.image}/>
             <NameLevelContainer name={name} level={lvl} expPercentage={percentageToNextLevel}/>
         </div>
