@@ -108,31 +108,42 @@ const setStabOnMoves = (movesArray, typesArray) => {
 }
 
 const getPokemonCry = async(id) => {
-    let result = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`).then(res => res.json())
+    let result
+    try{
+        result = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}/`).then(res => res.json())
+    }
+    catch(e){
+        console.error(e)
+    }
     return result.cries.latest
-
 }
 
 
 const getPokemonData = async(pokemonId) => {
+    let pokeData = {}
 
-    let result = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}/`).then(res => res.json())
-    const image = result.sprites.other.showdown.front_default
-    const imageBack = result.sprites.other.showdown.back_default
-
-    const stats = getPokemonStats(result.stats)
-    const moves = await getPokemonAttacksFromAllMoves(result.moves)
-
-    const pokeData = {
-        id: pokemonId,
-        front_image: image,
-        back_image: imageBack,
-        cry: result.cries.latest,
-        moves: moves,
-        baseStats: stats,
-        baseExp: result.base_experience,
-        name: result.name,
-        types: result.types.map(type => type.type.name)
+    try{
+        let result = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}/`).then(res => res.json())
+        const image = result.sprites.other.showdown.front_default
+        const imageBack = result.sprites.other.showdown.back_default
+    
+        const stats = getPokemonStats(result.stats)
+        const moves = await getPokemonAttacksFromAllMoves(result.moves)
+    
+        pokeData = {
+            id: pokemonId,
+            front_image: image,
+            back_image: imageBack,
+            cry: result.cries.latest,
+            moves: moves,
+            baseStats: stats,
+            baseExp: result.base_experience,
+            name: result.name,
+            types: result.types.map(type => type.type.name)
+        }
+    }
+    catch(e){
+        console.error(e)
     }
 
     return pokeData

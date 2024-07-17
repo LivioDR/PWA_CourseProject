@@ -252,4 +252,4 @@ const battleOverSequence = async(myPokeName, rivalPokeName, didPlayerWin, myLeve
     }
 }
 
-export { getCurrentLevelExp, getEarnedExperience, startBattle}
+export { getCurrentLevelExp, getLevelFromExp, getEarnedExperience, startBattle}
