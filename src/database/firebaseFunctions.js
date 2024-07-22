@@ -1,8 +1,12 @@
 // Import the functions you need from the SDKs you need
+import StartingPokemonTeam from "@/utilities/StartingPokemonTeam";
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, setDoc, collection, doc } from "firebase/firestore";
 
+
+const testUid = "qwertyuiopasdfghjkl"
+const testUsername = "UsernameForTesting"
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -76,4 +80,24 @@ const isUsernameAvailable = async(username) => {
     return isAvailable
 }
 
-export { signIn, signUp }
+const createCollectionForUserId = async(uid = testUid, username = testUsername) => {
+    const initialPokedex = StartingPokemonTeam
+
+    await setDoc(doc(db, 'pokedex', uid),{
+        username: username,
+        pokedex: {
+            ...initialPokedex
+        }
+    })
+
+}
+
+const getCollectionForUserId = (uid) => {
+
+}
+
+const updateCollectionForUserId = (uid, collection) => {
+
+}
+
+export { signIn, signUp, createCollectionForUserId, getCollectionForUserId, updateCollectionForUserId }
