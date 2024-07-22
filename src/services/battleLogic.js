@@ -159,7 +159,7 @@ const typeMessage = async(typeMult, setText) => {
     }
 }
 
-const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonData, setRivalPokemonData, setText) => {
+const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonData, setRivalPokemonData, setText, setIsBattleOver) => {
     // get the rival moves on a variable for easier management. Already have mines received as an argument
     const rivalAttacks = rivalPokemonData.moves
     
@@ -198,7 +198,7 @@ const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonDa
                 // checks if the battle is over
                 if(rivalStatsAfterAttack.Hp == 0){
                     isBattleOverFlag = true
-                    battleOverSequence(myPokemon, rivalPokemon, true, pokemonData.level, rivalPokemonData.level, rivalPokemonData.baseExp, setText)
+                    battleOverSequence(myPokemon, rivalPokemon, true, pokemonData.level, rivalPokemonData.level, rivalPokemonData.baseExp, setText, setIsBattleOver)
                 }
             }
             else{
@@ -223,7 +223,7 @@ const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonDa
                 // checks if the battle is over
                 if(myStatsAfterAttack.Hp == 0){
                     isBattleOverFlag = true
-                    battleOverSequence(myPokemon, rivalPokemon, false, pokemonData.level, rivalPokemonData.level, pokemonData.baseExp, setText)
+                    battleOverSequence(myPokemon, rivalPokemon, false, pokemonData.level, rivalPokemonData.level, pokemonData.baseExp, setText, setIsBattleOver)
                 }
             }
             else{
@@ -235,10 +235,9 @@ const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonDa
         nextAttacker == turns[0] ? nextAttacker = turns[1] : nextAttacker = turns[0]
     }
     while(!isBattleOverFlag)
-
 }
 
-const battleOverSequence = async(myPokeName, rivalPokeName, didPlayerWin, myLevel, rivalLevel, baseExp, setText) => {
+const battleOverSequence = async(myPokeName, rivalPokeName, didPlayerWin, myLevel, rivalLevel, baseExp, setText, setIsBattleOver) => {
     if(didPlayerWin){
         await setTextWithDelay(`Enemy ${rivalPokeName} has fainted.`, setText)
         await setTextWithDelay(`${myPokeName} has won!`, setText)
@@ -250,6 +249,7 @@ const battleOverSequence = async(myPokeName, rivalPokeName, didPlayerWin, myLeve
         await setTextWithDelay(`${myPokeName} has fainted.`, setText)
         await setTextWithDelay(`Enemy ${rivalPokeName} has ran away!`, setText)
     }
+    setIsBattleOver(true)
 }
 
 export { getCurrentLevelExp, getLevelFromExp, getEarnedExperience, startBattle}
