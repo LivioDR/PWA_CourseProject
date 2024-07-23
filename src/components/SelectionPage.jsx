@@ -2,8 +2,6 @@
 import ConfirmButton from "@/components/ConfirmButton/ConfirmButton"
 import PokeCardContainer from "@/components/PokeCardContainer/PokeCardContainer"
 import React, { useEffect, useState } from "react"
-
-import testingPlaceholder from "@/utilities/testingPlaceholder"
 import { getCollectionForUserId } from "@/database/firebaseFunctions"
 
 const SelectionPage = ({setPokemonData, nextPage}) => {
@@ -14,7 +12,10 @@ const SelectionPage = ({setPokemonData, nextPage}) => {
 
     useEffect(()=>{
         const getPokemonData = async() => {
-            const result = await getCollectionForUserId(localStorage.getItem("uid"))
+            let result
+            if(typeof window != "undefined"){
+                result = await getCollectionForUserId(localStorage.getItem("uid"))
+            }
             setFetchedPokemon(result)
             setLoading(false)
         }

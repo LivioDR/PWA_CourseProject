@@ -16,7 +16,9 @@ export default function Home() {
   const [rivalPokemonData, setRivalPokemonData] = useState({})
 
   // ******* TESTING ONLY ******* //
-  localStorage.setItem("uid","qwertyuiopasdfghjkl")
+  if(typeof window != "undefined"){
+    localStorage.setItem("uid","qwertyuiopasdfghjkl")
+  }
   // ******* TESTING ONLY ******* //
 
   useEffect(()=>{
