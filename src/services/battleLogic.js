@@ -1,3 +1,4 @@
+'use client'
 import { getCollectionForUserId, updateCollectionForUserId } from "@/database/firebaseFunctions"
 
 // Returns the order of attacks for the turn

@@ -1,3 +1,4 @@
+'use client'
 import battleSequence from "./battleLogic.js"
 
 const setImagesOnBattleground = () => {

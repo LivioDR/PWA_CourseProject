@@ -1,3 +1,4 @@
+'use client'
 // Import the functions you need from the SDKs you need
 import StartingPokemonTeam from "@/utilities/StartingPokemonTeam";
 import { initializeApp } from "firebase/app";
