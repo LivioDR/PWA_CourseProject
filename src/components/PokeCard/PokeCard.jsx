@@ -54,7 +54,7 @@ const PokeCard = ({id, name, lvl, exp, image, selected, setSelected, setPokemonD
 
     return(
         <div style={{...cardStyle.container, backgroundColor: selected == id ? 'teal' : '#3D3D3D'}} onClick={()=>{toggleSelection()}}>
-            <PokeImage img={image} style={cardStyle.image}/>
+            <PokeImage img={image || '/assets/images/rivalPokemonPlaceholder.png'} style={cardStyle.image}/>
             <NameLevelContainer name={name} level={lvl} expPercentage={percentageToNextLevel}/>
         </div>
     )

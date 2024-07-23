@@ -18,12 +18,12 @@ const BattleContainer = ({pokemonData, rivalPokemonData, battleText}) => {
             <div className="battleContainerRow" id="battleRivalGraph" style={{display: 'grid'}}>
                 <HpBar stats={rivalPokemonData.baseStats} reduceToLeft={true} />
                 <div className="imageBattleContainer" style={{justifySelf: 'end'}}>
-                    <PokeImage img={rivalPokemonData.front_image} style={{...imageStyle, height: '50%'}} xAlignment="end" />
+                    <PokeImage img={rivalPokemonData.front_image || '/assets/images/rivalPokemonPlaceholder.png'} style={{...imageStyle, height: '50%'}} xAlignment="end" />
                 </div>
             </div>
             <div className="battleContainerRow" id="battlePokemonGraph" style={{display: 'grid'}}>
                 <div className="imageBattleContainer" style={{justifySelf: 'start'}}>
-                    <PokeImage img={pokemonData.back_image} style={imageStyle} xAlignment="start" />
+                    <PokeImage img={pokemonData.back_image || '/assets/images/pokemonBackPlaceholder.gif'} style={imageStyle} xAlignment="start" />
                 </div>
                 <HpBar stats={pokemonData.baseStats} reduceToLeft={false} />
             </div>
