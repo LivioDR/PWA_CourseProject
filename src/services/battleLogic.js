@@ -31,10 +31,10 @@ const getCurrentLevelExp = (lvl) => {
 // Returns the current level achieved by the earned experience
 const getLevelFromExp = (exp) => {
     let level = 5
-    while(getCurrentLevelExp(level) < exp){
+    while(getCurrentLevelExp(level) <= exp){
         level++
     }
-    return level
+    return level-1
 }
 
 // Returns the type multiplier for the attack type and the defender type
