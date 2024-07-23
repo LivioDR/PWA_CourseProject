@@ -26,6 +26,7 @@ const PokeImage = ({img , style = {}, xAlignment = "center"}) => {
             width={style.width | 250}
             height={style.height | 250}
             unoptimized
+            priority
             style={{...styles.image, ...style}}
             alt={"Pokemon sprite"}
             />

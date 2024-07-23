@@ -15,6 +15,10 @@ export default function Home() {
   const [selectedMoves, setSelectedMoves] = useState([])
   const [rivalPokemonData, setRivalPokemonData] = useState({})
 
+  // ******* TESTING ONLY ******* //
+  localStorage.setItem("uid","qwertyuiopasdfghjkl")
+  // ******* TESTING ONLY ******* //
+
   useEffect(()=>{
     // Managing service worker
     if('serviceWorker' in navigator){
@@ -22,21 +26,43 @@ export default function Home() {
     }
   },[])
 
+  const changeToSelectionPage = () => {
+    setSelectionPage(true)
+    setMoveSelectionPage(false)
+    setBattlePage(false)
+    // reset the state
+    setSelectedMoves([])
+    setPokemonData({})
+    setRivalPokemonData({})
+  }
+
+  const changeToMoveSelectionPage = () => {
+    setSelectionPage(false)
+    setMoveSelectionPage(true)
+    setBattlePage(false)
+  }
+
+  const changeToBattlePage = () => {
+    setSelectionPage(false)
+    setMoveSelectionPage(false)
+    setBattlePage(true)
+  }
+
   return (
     <>
       <Metadata/>
       <Header/>
       {
         selectionPage &&
-        <SelectionPage nextPage={()=>{setMoveSelectionPage(true);setSelectionPage(false)}} pokemonData={pokemonData} setPokemonData={setPokemonData}/>
+        <SelectionPage nextPage={changeToMoveSelectionPage} pokemonData={pokemonData} setPokemonData={setPokemonData}/>
       }
       { 
         moveSelectionPage &&
-        <MoveSelectionPage nextPage={()=>{setBattlePage(true);setMoveSelectionPage(false)}} pokemonData={pokemonData} selectedMoves={selectedMoves} setSelectedMoves={setSelectedMoves} setRivalPokemonData={setRivalPokemonData}/>
+        <MoveSelectionPage nextPage={changeToBattlePage} pokemonData={pokemonData} selectedMoves={selectedMoves} setSelectedMoves={setSelectedMoves} setRivalPokemonData={setRivalPokemonData}/>
       }
       {
         battlePage &&
-        <BattlePage pokemonData={pokemonData} pokemonAttacks={selectedMoves} rivalPokemonData={rivalPokemonData} setPokemonData={setPokemonData} setRivalPokemonData={setRivalPokemonData} />
+        <BattlePage nextPage={changeToSelectionPage} pokemonData={pokemonData} pokemonAttacks={selectedMoves} rivalPokemonData={rivalPokemonData} setPokemonData={setPokemonData} setRivalPokemonData={setRivalPokemonData} />
       }
     </>
   );

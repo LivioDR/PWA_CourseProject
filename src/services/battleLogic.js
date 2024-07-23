@@ -1,3 +1,5 @@
+import { getCollectionForUserId, updateCollectionForUserId } from "@/database/firebaseFunctions"
+
 // Returns the order of attacks for the turn
 const getTurnOrder = (myStats, rivalStats) => {
     
@@ -23,16 +25,16 @@ const getEarnedExperience = (myLevel, enemyLevel, baseExp, affection = 1, luckyE
 // Returns the experience needed to achieve a level
 const getCurrentLevelExp = (lvl) => {
     // the minimum level is 5 due to the tipping point of the formula
-    return ( (1.2 * Math.pow(lvl,3)) - (15*Math.pow(lvl,2)) + (100*lvl) - 140)
+    return Math.round( (1.2 * Math.pow(lvl,3)) - (15*Math.pow(lvl,2)) + (100*lvl) - 140)
 }
 
 // Returns the current level achieved by the earned experience
 const getLevelFromExp = (exp) => {
     let level = 5
-    while(getCurrentLevelExp(level) < exp){
+    while(getCurrentLevelExp(level) <= exp){
         level++
     }
-    return level
+    return level-1
 }
 
 // Returns the type multiplier for the attack type and the defender type
@@ -159,7 +161,7 @@ const typeMessage = async(typeMult, setText) => {
     }
 }
 
-const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonData, setRivalPokemonData, setText) => {
+const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonData, setRivalPokemonData, setText, setIsBattleOver) => {
     // get the rival moves on a variable for easier management. Already have mines received as an argument
     const rivalAttacks = rivalPokemonData.moves
     
@@ -198,7 +200,9 @@ const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonDa
                 // checks if the battle is over
                 if(rivalStatsAfterAttack.Hp == 0){
                     isBattleOverFlag = true
-                    battleOverSequence(myPokemon, rivalPokemon, true, pokemonData.level, rivalPokemonData.level, rivalPokemonData.baseExp, setText)
+                    await addExpAndCalculateLevelForPokemon(pokemonData.id, rivalPokemonData.baseExp)
+                    await addPokemonToCollectionIfNotCaught(rivalPokemonData)
+                    battleOverSequence(myPokemon, rivalPokemon, true, pokemonData.level, rivalPokemonData.level, rivalPokemonData.baseExp, setText, setIsBattleOver)
                 }
             }
             else{
@@ -223,7 +227,7 @@ const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonDa
                 // checks if the battle is over
                 if(myStatsAfterAttack.Hp == 0){
                     isBattleOverFlag = true
-                    battleOverSequence(myPokemon, rivalPokemon, false, pokemonData.level, rivalPokemonData.level, pokemonData.baseExp, setText)
+                    battleOverSequence(myPokemon, rivalPokemon, false, pokemonData.level, rivalPokemonData.level, pokemonData.baseExp, setText, setIsBattleOver)
                 }
             }
             else{
@@ -235,10 +239,43 @@ const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonDa
         nextAttacker == turns[0] ? nextAttacker = turns[1] : nextAttacker = turns[0]
     }
     while(!isBattleOverFlag)
-
 }
 
-const battleOverSequence = async(myPokeName, rivalPokeName, didPlayerWin, myLevel, rivalLevel, baseExp, setText) => {
+const addExpAndCalculateLevelForPokemon = async(idOfMyPokemon, earnedExp) => {
+    const uid = localStorage.getItem("uid")
+    let pokemonDataForUpdate = await getCollectionForUserId(uid)
+    for(let i=0; i<pokemonDataForUpdate.length; i++){
+        if(pokemonDataForUpdate[i].id == idOfMyPokemon){
+            pokemonDataForUpdate[i].level = getLevelFromExp(pokemonDataForUpdate[i].exp + earnedExp)
+            pokemonDataForUpdate[i].exp += earnedExp
+        }
+    }
+    updateCollectionForUserId(uid, pokemonDataForUpdate)
+}
+
+const addPokemonToCollectionIfNotCaught = async(rivalData) => {
+    const uid = localStorage.getItem("uid")
+    let myCurrentPokemonCollection = await getCollectionForUserId(uid)
+    const id = rivalData.id
+    for(let i=0; i<myCurrentPokemonCollection.length; i++){
+        if(myCurrentPokemonCollection[i].id == id){
+            return
+        }
+    }
+    const rivalDataForFirebase = {
+        id: rivalData.id,
+        name: rivalData.name,
+        level: rivalData.level,
+        exp: getCurrentLevelExp(rivalData.level),
+        image: rivalData.front_image,
+    }
+    myCurrentPokemonCollection.push(rivalDataForFirebase)
+
+    updateCollectionForUserId(uid, myCurrentPokemonCollection)
+}
+
+
+const battleOverSequence = async(myPokeName, rivalPokeName, didPlayerWin, myLevel, rivalLevel, baseExp, setText, setIsBattleOver) => {
     if(didPlayerWin){
         await setTextWithDelay(`Enemy ${rivalPokeName} has fainted.`, setText)
         await setTextWithDelay(`${myPokeName} has won!`, setText)
@@ -250,6 +287,7 @@ const battleOverSequence = async(myPokeName, rivalPokeName, didPlayerWin, myLeve
         await setTextWithDelay(`${myPokeName} has fainted.`, setText)
         await setTextWithDelay(`Enemy ${rivalPokeName} has ran away!`, setText)
     }
+    setIsBattleOver(true)
 }
 
 export { getCurrentLevelExp, getLevelFromExp, getEarnedExperience, startBattle}
