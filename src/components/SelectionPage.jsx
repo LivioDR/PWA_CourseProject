@@ -4,24 +4,21 @@ import PokeCardContainer from "@/components/PokeCardContainer/PokeCardContainer"
 import React, { useEffect, useState } from "react"
 
 import testingPlaceholder from "@/utilities/testingPlaceholder"
+import { getCollectionForUserId } from "@/database/firebaseFunctions"
 
-const SelectionPage = ({pokemonData, setPokemonData, nextPage}) => {
+const SelectionPage = ({setPokemonData, nextPage}) => {
     const [selectedPokemon, setSelectedPokemon] = useState(0)
     const [isDataReady, setIsDataReady] = useState(false)
     const [fetchedPokemon, setFetchedPokemon] = useState({})
     const [loading, setLoading] = useState(true)
 
     useEffect(()=>{
-        console.log("Selection page log of pokemon data:",pokemonData)
-    },[pokemonData])
-
-    useEffect(()=>{
-        console.log("Simulating fetch from DB")
-        setTimeout(()=>{
-            setFetchedPokemon(testingPlaceholder.team_3)
+        const getPokemonData = async() => {
+            const result = await getCollectionForUserId(localStorage.getItem("uid"))
+            setFetchedPokemon(result)
             setLoading(false)
-        },[1500])
-
+        }
+        getPokemonData()
     },[])
 
     if(!loading){

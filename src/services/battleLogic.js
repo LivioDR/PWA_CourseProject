@@ -1,3 +1,5 @@
+import { getCollectionForUserId, updateCollectionForUserId } from "@/database/firebaseFunctions"
+
 // Returns the order of attacks for the turn
 const getTurnOrder = (myStats, rivalStats) => {
     
@@ -23,7 +25,7 @@ const getEarnedExperience = (myLevel, enemyLevel, baseExp, affection = 1, luckyE
 // Returns the experience needed to achieve a level
 const getCurrentLevelExp = (lvl) => {
     // the minimum level is 5 due to the tipping point of the formula
-    return ( (1.2 * Math.pow(lvl,3)) - (15*Math.pow(lvl,2)) + (100*lvl) - 140)
+    return Math.round( (1.2 * Math.pow(lvl,3)) - (15*Math.pow(lvl,2)) + (100*lvl) - 140)
 }
 
 // Returns the current level achieved by the earned experience
@@ -198,6 +200,8 @@ const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonDa
                 // checks if the battle is over
                 if(rivalStatsAfterAttack.Hp == 0){
                     isBattleOverFlag = true
+                    await addExpAndCalculateLevelForPokemon(pokemonData.id, rivalPokemonData.baseExp)
+                    await addPokemonToCollectionIfNotCaught(rivalPokemonData)
                     battleOverSequence(myPokemon, rivalPokemon, true, pokemonData.level, rivalPokemonData.level, rivalPokemonData.baseExp, setText, setIsBattleOver)
                 }
             }
@@ -236,6 +240,40 @@ const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonDa
     }
     while(!isBattleOverFlag)
 }
+
+const addExpAndCalculateLevelForPokemon = async(idOfMyPokemon, earnedExp) => {
+    const uid = localStorage.getItem("uid")
+    let pokemonDataForUpdate = await getCollectionForUserId(uid)
+    for(let i=0; i<pokemonDataForUpdate.length; i++){
+        if(pokemonDataForUpdate[i].id == idOfMyPokemon){
+            pokemonDataForUpdate[i].level = getLevelFromExp(pokemonDataForUpdate[i].exp + earnedExp)
+            pokemonDataForUpdate[i].exp += earnedExp
+        }
+    }
+    updateCollectionForUserId(uid, pokemonDataForUpdate)
+}
+
+const addPokemonToCollectionIfNotCaught = async(rivalData) => {
+    const uid = localStorage.getItem("uid")
+    let myCurrentPokemonCollection = await getCollectionForUserId(uid)
+    const id = rivalData.id
+    for(let i=0; i<myCurrentPokemonCollection.length; i++){
+        if(myCurrentPokemonCollection[i].id == id){
+            return
+        }
+    }
+    const rivalDataForFirebase = {
+        id: rivalData.id,
+        name: rivalData.name,
+        level: rivalData.level,
+        exp: getCurrentLevelExp(rivalData.level),
+        image: rivalData.front_image,
+    }
+    myCurrentPokemonCollection.push(rivalDataForFirebase)
+
+    updateCollectionForUserId(uid, myCurrentPokemonCollection)
+}
+
 
 const battleOverSequence = async(myPokeName, rivalPokeName, didPlayerWin, myLevel, rivalLevel, baseExp, setText, setIsBattleOver) => {
     if(didPlayerWin){

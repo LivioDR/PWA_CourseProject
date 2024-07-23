@@ -2,7 +2,7 @@
 import StartingPokemonTeam from "@/utilities/StartingPokemonTeam";
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { getFirestore, setDoc, collection, doc } from "firebase/firestore";
+import { getFirestore, setDoc, doc, updateDoc, collection, getDocs } from "firebase/firestore";
 
 
 const testUid = "qwertyuiopasdfghjkl"
@@ -82,22 +82,58 @@ const isUsernameAvailable = async(username) => {
 
 const createCollectionForUserId = async(uid = testUid, username = testUsername) => {
     const initialPokedex = StartingPokemonTeam
+    try{
+        await setDoc(doc(db, 'pokedex', uid),{
+            username: username,
+            pokedex: {
+                ...initialPokedex
+            }
+        })
+    }
+    catch(e){
+        console.error(e)
+    }
+}
 
-    await setDoc(doc(db, 'pokedex', uid),{
-        username: username,
-        pokedex: {
-            ...initialPokedex
+const getCollectionForUserId = async(uid = testUid) => {
+    let pokeCollection = []
+    try{
+        const querySnapshot = await getDocs(collection(db, 'pokedex'))
+        querySnapshot.forEach(document => {
+            if(document.id == uid){
+                const retrievedPokedex = document.data().pokedex
+                for(const [key, val] of Object.entries(retrievedPokedex)){
+                    pokeCollection.push({
+                        id: key,
+                        ...val,
+                    })
+                }
+            }
+        })
+    }
+    catch(e){
+        console.error(e)
+    }
+    return pokeCollection
+}
+
+const updateCollectionForUserId = async(uid = testUid, collection) => {
+    let pokedex = {}
+    for(let i=0; i<collection.length; i++){
+        pokedex[collection[i].id] = {
+            ...collection[i],
         }
-    })
-
-}
-
-const getCollectionForUserId = (uid) => {
-
-}
-
-const updateCollectionForUserId = (uid, collection) => {
-
+        delete pokedex[collection[i].id].id
+    }
+    const dataToUpload = {
+        pokedex: pokedex
+    }
+    try{
+        await updateDoc(doc(db, 'pokedex', uid), dataToUpload)
+    }   
+    catch(e){
+        console.error(e)
+    }
 }
 
 export { signIn, signUp, createCollectionForUserId, getCollectionForUserId, updateCollectionForUserId }

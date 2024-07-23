@@ -15,6 +15,10 @@ export default function Home() {
   const [selectedMoves, setSelectedMoves] = useState([])
   const [rivalPokemonData, setRivalPokemonData] = useState({})
 
+  // ******* TESTING ONLY ******* //
+  localStorage.setItem("uid","qwertyuiopasdfghjkl")
+  // ******* TESTING ONLY ******* //
+
   useEffect(()=>{
     // Managing service worker
     if('serviceWorker' in navigator){
