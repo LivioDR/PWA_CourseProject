@@ -31,9 +31,10 @@ const signUp = (username, email, password) => {
         createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
-            localStorage.setItem('uid',user.uid)
-            localStorage.setItem('username',username)
-
+            if(typeof window != "undefined"){
+                localStorage.setItem('uid',user.uid)
+                localStorage.setItem('username',username)
+            }
             // then create the pokedex in the database
             createCollectionForUserId(user.uid, username)
         })
@@ -41,24 +42,42 @@ const signUp = (username, email, password) => {
             console.error(error.code)
             console.error(error.message)    
         });
+        return true // signUp successfull
     }
+    return false // username not available
 }
 
-const signIn = (email, password) => {
+const signIn = async(email, password) => {
+    let uid
     signInWithEmailAndPassword(auth, email, password)
     .then(credential => {
-        // get UID
-        // get username
-        // get pokedex
-
-
+        uid = credential.user.uid
+        if(typeof window != "undefined"){
+            localStorage.setItem("uid",uid)
+        }    
     })
     .catch(error => {
         console.error(error.code)
         console.error(error.message)
     })
+    try{
+        const querySnapshot = await getDocs(collection(db, 'pokedex'))
+        querySnapshot.forEach(document => {
+            if(document.id == uid){
+                const username = document.data().username
+                if(typeof window != "undefined"){
+                    localStorage.setItem("username",username)
+                }
+            }
+        })
+    }
+    catch(e){
+        console.error(e)
+    }
+    return true
 }
 
+// TODO: refactor function
 const isUsernameAvailable = async(username) => {
     let isAvailable = true
     let user = username.toLowerCase().trim()
