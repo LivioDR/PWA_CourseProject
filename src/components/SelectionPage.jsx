@@ -25,9 +25,9 @@ const SelectionPage = ({setPokemonData, nextPage}) => {
         if('wakeLock' in navigator){
             try{
                 navigator.wakeLock.request().then(sentinel => {
-                    sentinel.release().then(result => {
+                    sentinel.release().then(res => {
                         console.log(`Sentinel released successfully`)
-                        console.log(result)
+                        console.log(res)
                     }).catch(err => {
                         console.error(`An error occurred while releasing the sentinel`)
                         console.error(err)
