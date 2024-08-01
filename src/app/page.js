@@ -15,6 +15,8 @@ export default function Home() {
   const [selectedMoves, setSelectedMoves] = useState([])
   const [rivalPokemonData, setRivalPokemonData] = useState({})
 
+  const [wakeLockRef, setWakeLockRef] = useState(null)
+
   // ******* TESTING ONLY ******* //
   if(typeof window != "undefined"){
     localStorage.setItem("uid","qwertyuiopasdfghjkl")
@@ -56,7 +58,7 @@ export default function Home() {
       <Header/>
       {
         selectionPage &&
-        <SelectionPage nextPage={changeToMoveSelectionPage} pokemonData={pokemonData} setPokemonData={setPokemonData}/>
+        <SelectionPage nextPage={changeToMoveSelectionPage} wakeLock={wakeLockRef} pokemonData={pokemonData} setPokemonData={setPokemonData}/>
       }
       { 
         moveSelectionPage &&
@@ -64,7 +66,7 @@ export default function Home() {
       }
       {
         battlePage &&
-        <BattlePage nextPage={changeToSelectionPage} pokemonData={pokemonData} pokemonAttacks={selectedMoves} rivalPokemonData={rivalPokemonData} setPokemonData={setPokemonData} setRivalPokemonData={setRivalPokemonData} />
+        <BattlePage nextPage={changeToSelectionPage} setWakeLock={setWakeLockRef} pokemonData={pokemonData} pokemonAttacks={selectedMoves} rivalPokemonData={rivalPokemonData} setPokemonData={setPokemonData} setRivalPokemonData={setRivalPokemonData} />
       }
     </>
   );

@@ -4,7 +4,7 @@ import BattleContainer from "@/components/BattleComponents/BattleContainer/Battl
 import { startBattle } from "@/services/battleLogic";
 import ConfirmButton from "./ConfirmButton/ConfirmButton";
 
-const BattlePage = ({nextPage, pokemonData, pokemonAttacks, rivalPokemonData, setPokemonData, setRivalPokemonData }) => {
+const BattlePage = ({nextPage, pokemonData, pokemonAttacks, rivalPokemonData, setPokemonData, setRivalPokemonData, setWakeLock }) => {
 
     const [text, setText] = useState()
     const [isBattleOver, setIsBattleOver] = useState(false)
@@ -17,8 +17,8 @@ const BattlePage = ({nextPage, pokemonData, pokemonAttacks, rivalPokemonData, se
         // Setting the WakeLock API
         if('wakeLock' in navigator){
             try{
-                navigator.wakeLock.request().then(req => {
-                    console.log(req)
+                navigator.wakeLock.request().then(res => {
+                    setWakeLock(res)
                 })
             }
             catch(e){

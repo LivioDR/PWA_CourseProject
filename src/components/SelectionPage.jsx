@@ -4,7 +4,7 @@ import PokeCardContainer from "@/components/PokeCardContainer/PokeCardContainer"
 import React, { useEffect, useState } from "react"
 import { getCollectionForUserId } from "@/database/firebaseFunctions"
 
-const SelectionPage = ({setPokemonData, nextPage}) => {
+const SelectionPage = ({setPokemonData, nextPage, wakeLock}) => {
     const [selectedPokemon, setSelectedPokemon] = useState(0)
     const [isDataReady, setIsDataReady] = useState(false)
     const [fetchedPokemon, setFetchedPokemon] = useState({})
@@ -22,17 +22,15 @@ const SelectionPage = ({setPokemonData, nextPage}) => {
         getPokemonData()
 
         // releasing the wakeLock
-        if('wakeLock' in navigator){
+        if(wakeLock !== null){
             try{
-                navigator.wakeLock.request().then(sentinel => {
-                    sentinel.release().then(res => {
+                wakeLock.release().then(res => {
                         console.log(`Sentinel released successfully`)
                         console.log(res)
                     }).catch(err => {
                         console.error(`An error occurred while releasing the sentinel`)
                         console.error(err)
                     })
-                })
             }
             catch(e){
                 console.error(e)
