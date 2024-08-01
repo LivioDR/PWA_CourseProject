@@ -28,6 +28,9 @@ export default function Home() {
     if('serviceWorker' in navigator){
       navigator.serviceWorker.register('/serviceWorker.js')
     }
+
+    // screen orientation lock
+    screen.orientation.lock("portrait")
   },[])
 
   const changeToSelectionPage = () => {
