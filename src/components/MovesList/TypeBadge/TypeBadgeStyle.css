@@ -9,7 +9,7 @@
     border-radius: 20px;
 }
 .typeBadgeText {
-    -webkit-text-stroke: 0.4px black;
+    -webkit-text-stroke: 0.2px black;
     text-align: center;
     color: white;
 }
