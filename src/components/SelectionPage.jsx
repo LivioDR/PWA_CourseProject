@@ -20,6 +20,24 @@ const SelectionPage = ({setPokemonData, nextPage}) => {
             setLoading(false)
         }
         getPokemonData()
+
+        // releasing the wakeLock
+        if('wakeLock' in navigator){
+            try{
+                navigator.wakeLock.request().then(sentinel => {
+                    sentinel.release().then(result => {
+                        console.log(`Sentinel released successfully`)
+                        console.log(result)
+                    }).catch(err => {
+                        console.error(`An error occurred while releasing the sentinel`)
+                        console.error(err)
+                    })
+                })
+            }
+            catch(e){
+                console.error(e)
+            }
+        }
     },[])
 
     if(!loading){

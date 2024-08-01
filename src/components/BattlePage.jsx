@@ -14,6 +14,17 @@ const BattlePage = ({nextPage, pokemonData, pokemonAttacks, rivalPokemonData, se
     }
 
     useEffect(()=>{
+        // Setting the WakeLock API
+        if('wakeLock' in navigator){
+            try{
+                navigator.wakeLock.request().then(req => {
+                    console.log(req)
+                })
+            }
+            catch(e){
+                console.error(e)
+            }
+        }
         beginBattleSequence()
     },[])
 
