@@ -25,7 +25,15 @@ const MoveSelectionPage = ({nextPage, pokemonData, selectedMoves, setSelectedMov
         let moves = setStabOnMoves(selectedMoves, pokemonData.types)
         setSelectedMoves(moves)
 
+        // change the flag of the loading button
         setLoadingRival(false)
+
+        // sends a vibration to the device if available
+        if('vibrate' in navigator){
+            navigator.vibrate(200)
+        }
+
+        // moves onto the battle screen
         nextPage()
     }
 
