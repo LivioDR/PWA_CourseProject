@@ -14,8 +14,8 @@ const wrapperStyle = {
     maxWidth: '500px',
     margin: '0 auto',
     backgroundImage: 'url("./assets/images/battleBackground.gif")',
-    backgroundPosition: '55% 100%',
-    backgroundSize: '800px 600px',
+    backgroundPosition: '55% 80%',
+    backgroundSize: '800px 700px',
     backgroundRepeat: 'no-repeat',
 }
 
