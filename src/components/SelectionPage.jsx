@@ -4,7 +4,7 @@ import PokeCardContainer from "@/components/PokeCardContainer/PokeCardContainer"
 import React, { useEffect, useState } from "react"
 import { getCollectionForUserId } from "@/database/firebaseFunctions"
 
-const SelectionPage = ({setPokemonData, nextPage, wakeLock}) => {
+const SelectionPage = ({setPokemonData, nextPage, wakeLock, setIsOnline}) => {
     const [selectedPokemon, setSelectedPokemon] = useState(0)
     const [isDataReady, setIsDataReady] = useState(false)
     const [fetchedPokemon, setFetchedPokemon] = useState({})
@@ -16,8 +16,15 @@ const SelectionPage = ({setPokemonData, nextPage, wakeLock}) => {
             if(typeof window != "undefined"){
                 result = await getCollectionForUserId(localStorage.getItem("uid"))
             }
-            setFetchedPokemon(result)
-            setLoading(false)
+            if(result.length > 0){
+                setFetchedPokemon(result)
+                setLoading(false)
+            }
+            else{
+                if(!navigator.onLine){
+                    setIsOnline(false)
+                }
+            }
         }
         getPokemonData()
 

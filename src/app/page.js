@@ -14,7 +14,9 @@ export default function Home() {
   const [pokemonData, setPokemonData] = useState({})
   const [selectedMoves, setSelectedMoves] = useState([])
   const [rivalPokemonData, setRivalPokemonData] = useState({})
+  const [isOnline, setIsOnline] = useState(navigator.onLine)
 
+  // wakeLock state management
   const [wakeLockRef, setWakeLockRef] = useState(null)
 
   // ******* TESTING ONLY ******* //
@@ -36,6 +38,10 @@ export default function Home() {
     .catch(e => {
       console.error(`An error ocurred while locking the screen orientation:`,e)
     })
+
+    // online/offline handling
+    window.addEventListener('offline', () => { setIsOnline(false)})
+    window.addEventListener('online', () => { setIsOnline(true)})
   },[])
 
   const changeToSelectionPage = () => {
@@ -60,22 +66,35 @@ export default function Home() {
     setBattlePage(true)
   }
 
-  return (
-    <>
-      <Metadata/>
-      <Header/>
-      {
-        selectionPage &&
-        <SelectionPage nextPage={changeToMoveSelectionPage} wakeLock={wakeLockRef} pokemonData={pokemonData} setPokemonData={setPokemonData}/>
-      }
-      { 
-        moveSelectionPage &&
-        <MoveSelectionPage nextPage={changeToBattlePage} pokemonData={pokemonData} selectedMoves={selectedMoves} setSelectedMoves={setSelectedMoves} setRivalPokemonData={setRivalPokemonData}/>
-      }
-      {
-        battlePage &&
-        <BattlePage nextPage={changeToSelectionPage} setWakeLock={setWakeLockRef} pokemonData={pokemonData} pokemonAttacks={selectedMoves} rivalPokemonData={rivalPokemonData} setPokemonData={setPokemonData} setRivalPokemonData={setRivalPokemonData} />
-      }
-    </>
-  );
+  if(isOnline){
+    return (
+      <>
+        <Metadata/>
+        <Header/>
+        {
+          selectionPage &&
+          <SelectionPage nextPage={changeToMoveSelectionPage} setIsOnline={setIsOnline} wakeLock={wakeLockRef} pokemonData={pokemonData} setPokemonData={setPokemonData}/>
+        }
+        { 
+          moveSelectionPage &&
+          <MoveSelectionPage nextPage={changeToBattlePage} pokemonData={pokemonData} selectedMoves={selectedMoves} setSelectedMoves={setSelectedMoves} setRivalPokemonData={setRivalPokemonData}/>
+        }
+        {
+          battlePage &&
+          <BattlePage nextPage={changeToSelectionPage} setWakeLock={setWakeLockRef} pokemonData={pokemonData} pokemonAttacks={selectedMoves} rivalPokemonData={rivalPokemonData} setPokemonData={setPokemonData} setRivalPokemonData={setRivalPokemonData} />
+        }
+      </>
+    );
+  }
+  else{
+    return(
+      <>
+        <Metadata/>
+        <Header/>
+        <div style={{height: '90vh', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center'}}>
+          <p>No internet connection. Please try again</p>
+        </div>
+      </>
+    )
+  }
 }
