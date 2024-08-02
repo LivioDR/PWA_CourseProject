@@ -37,7 +37,7 @@ const ExpBar = ({expPercentage}) => {
         <div style={expStyles.wrapper}>
             <p style={expStyles.label}>Exp</p>
             <div className="exp-container" style={expStyles.container}>
-                <div className="exp-filling" style={{...expStyles.filling, width: `${expPercentage}%`}}>
+                <div className="exp-filling" style={{...expStyles.filling, width: `${15 + (expPercentage * 0.85)}%`}}>
 
                 </div>
             </div>
