@@ -4,6 +4,12 @@ import BattleContainer from "@/components/BattleComponents/BattleContainer/Battl
 import { startBattle } from "@/services/battleLogic";
 import ConfirmButton from "./ConfirmButton/ConfirmButton";
 
+const battlePageStyles = {
+    wrapper: {
+        width: '100%'
+    },
+}
+
 const BattlePage = ({nextPage, pokemonData, pokemonAttacks, rivalPokemonData, setPokemonData, setRivalPokemonData, setWakeLock }) => {
 
     const [text, setText] = useState()
@@ -29,13 +35,13 @@ const BattlePage = ({nextPage, pokemonData, pokemonAttacks, rivalPokemonData, se
     },[])
 
     return(
-        <>
+        <div style={battlePageStyles.wrapper}>
             <BattleContainer pokemonData={pokemonData} rivalPokemonData={rivalPokemonData} battleText={text} />
             {
                 isBattleOver &&
                 <ConfirmButton confirmText="New game?" route={nextPage} ready={true} />
             }
-        </>
+        </div>
     )
 }
 export default BattlePage

@@ -6,15 +6,19 @@ import BattleText from "../BattleText/BattleText";
 
 const imageStyle = {
     margin: '0%',
-    // height: '50%',
     width: '50%',
     minWidth: '150px',
+}
+const wrapperStyle = {
+    width: '100%',
+    maxWidth: '500px',
+    margin: '0 auto',
 }
 
 
 const BattleContainer = ({pokemonData, rivalPokemonData, battleText}) => {
     return(
-        <div className="battleContainerWrapper">
+        <div className="battleContainerWrapper" style={wrapperStyle}>
             <div className="battleContainerRow" id="battleRivalGraph" style={{display: 'grid'}}>
                 <HpBar stats={rivalPokemonData.baseStats} reduceToLeft={true} />
                 <div className="imageBattleContainer" style={{justifySelf: 'end'}}>
