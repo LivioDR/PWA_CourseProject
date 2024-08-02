@@ -22,6 +22,7 @@ const landscapeLayoutStyle = {
         width: '50%',
         margin: '0%',
         height: '80vh',
+        textAlign: 'center',
     },
     imageContainer: {
         maxHeight: '40%',
@@ -131,6 +132,7 @@ const MoveSelectionPage = ({nextPage, pokemonData, selectedMoves, setSelectedMov
                     <MovesSelected moves={selectedMoves} />
                 </div>
                 <div style={landscapeLayoutStyle.container}>
+                    <h3>Available moves</h3>
                     <MovesList moves={pokemonData.moves} addMove={addMove} removeMove={removeMove} style={{height: 'wrap-content'}}/>
                     {
                         movesNumberExceeded &&
