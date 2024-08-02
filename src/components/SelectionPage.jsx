@@ -21,8 +21,10 @@ const SelectionPage = ({setPokemonData, nextPage, wakeLock, setIsOnline}) => {
                 setLoading(false)
             }
             else{
-                if(!navigator.onLine){
-                    setIsOnline(false)
+                if('onLine' in navigator){
+                    if(!navigator.onLine){
+                        setIsOnline(false)
+                    }
                 }
             }
         }

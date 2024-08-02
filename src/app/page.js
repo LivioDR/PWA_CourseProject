@@ -14,7 +14,7 @@ export default function Home() {
   const [pokemonData, setPokemonData] = useState({})
   const [selectedMoves, setSelectedMoves] = useState([])
   const [rivalPokemonData, setRivalPokemonData] = useState({})
-  const [isOnline, setIsOnline] = useState(navigator.onLine)
+  const [isOnline, setIsOnline] = useState(false)
 
   // wakeLock state management
   const [wakeLockRef, setWakeLockRef] = useState(null)
@@ -42,6 +42,10 @@ export default function Home() {
     // online/offline handling
     window.addEventListener('offline', () => { setIsOnline(false)})
     window.addEventListener('online', () => { setIsOnline(true)})
+    if('onLine' in navigator){
+      setIsOnline(navigator.onLine)
+    }
+
   },[])
 
   const changeToSelectionPage = () => {
