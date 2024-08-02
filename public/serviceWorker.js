@@ -37,7 +37,7 @@ self.addEventListener('fetch', event => {
 
 
    // Caching pokemon moves
-   if((event.request.url).startsWith('https://pokeapi.co/api/v2/move/')){
+   else if((event.request.url).startsWith('https://pokeapi.co/api/v2/move/')){
       event.respondWith(
          caches.match(event.request.url).then(response => {
             if(response != undefined){ // match always resolves, but only if succeed it will have a value
@@ -61,7 +61,7 @@ self.addEventListener('fetch', event => {
    }
 
    // Caching pokemon sprites
-   if((event.request.url).startsWith('https://raw.githubusercontent.com/PokeAPI/sprites/')){
+   else if((event.request.url).startsWith('https://raw.githubusercontent.com/PokeAPI/sprites/')){
       event.respondWith(
          caches.match(event.request.url).then(response => {
             if(response != undefined){ // match always resolves, but only if succeed it will have a value
@@ -85,7 +85,7 @@ self.addEventListener('fetch', event => {
    }
 
    // Caching pokemon cries
-   if((event.request.url).startsWith('https://raw.githubusercontent.com/PokeAPI/cries/')){
+   else if((event.request.url).startsWith('https://raw.githubusercontent.com/PokeAPI/cries/')){
       event.respondWith(
          caches.match(event.request.url).then(response => {
             if(response != undefined){ // match always resolves, but only if succeed it will have a value
@@ -109,7 +109,7 @@ self.addEventListener('fetch', event => {
    }
 
    // Caching pokemon types advantages
-   if((event.request.url).startsWith('https://pokeapi.co/api/v2/type/')){
+   else if((event.request.url).startsWith('https://pokeapi.co/api/v2/type/')){
       event.respondWith(
          caches.match(event.request.url).then(response => {
             if(response != undefined){ // match always resolves, but only if succeed it will have a value
@@ -120,6 +120,30 @@ self.addEventListener('fetch', event => {
                   let clone = response.clone() // cloning the response because I will put one copy on cache and return the other one
 
                   caches.open('pokemon-types').then(cache => {
+                     cache.put(event.request.url, clone) // storing the clone of the response with the request as a key
+                  })
+                  return response
+               })
+            }
+         })
+         .catch(e => {
+            console.error(e)
+         })
+      )
+   }
+
+   // Caching the app shell files and skipping the chrome extensions and firebase functions
+   else if(!(event.request.url).startsWith('chrome-extension') && !(event.request.url).startsWith('https://firestore.googleapis')){
+      event.respondWith(
+         caches.match(event.request.url).then(response => {
+            if(response != undefined){ // match always resolves, but only if succeed it will have a value
+               return response
+            }
+            else{
+               return fetch(event.request).then(response => {
+                  let clone = response.clone() // cloning the response because I will put one copy on cache and return the other one
+
+                  caches.open('app-shell').then(cache => {
                      cache.put(event.request.url, clone) // storing the clone of the response with the request as a key
                   })
                   return response
