@@ -8,12 +8,39 @@ import { setStabOnMoves } from "@/services/getPokemonData";
 import getRivalPokemonData from "@/services/getRivalPokemon";
 import React, { useState, useEffect } from "react";
 
+const landscapeLayoutStyle = {
+    wrapper: {
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        width: '100%',
+        maxWidth: '1200px',
+        height: '90vh',
+        margin: '0 auto',
+    },
+    container: {
+        width: '50%',
+        margin: '0%',
+        height: '80vh',
+    },
+    imageContainer: {
+        maxHeight: '40%',
+    },
+    btnContainer: {
+        width: '100%',
+        margin: '0%',
+        height: '10vh',
+
+    }
+}
+
 const MoveSelectionPage = ({nextPage, pokemonData, selectedMoves, setSelectedMoves, setRivalPokemonData}) => {
 
     const [movesNumberExceeded, setMovesNumberExceeded] = useState(false)
     const [noMovesSelected, setNoMovesSelected] = useState(false)
     const [areMovesOkay, setAreMovesOkay] = useState(false)
     const [loadingRival, setLoadingRival] = useState(false)
+    const [screenWidth, setScreenWidth] = useState(screen.width)
 
     const moveToBattle = async() => {
         setLoadingRival(true)
@@ -51,6 +78,10 @@ const MoveSelectionPage = ({nextPage, pokemonData, selectedMoves, setSelectedMov
         })
     }
 
+    window.addEventListener('resize', () => {
+        setScreenWidth(window.innerWidth)
+    })
+
     useEffect(()=>{
         if(selectedMoves.length == 0){
             setNoMovesSelected(true)
@@ -67,25 +98,57 @@ const MoveSelectionPage = ({nextPage, pokemonData, selectedMoves, setSelectedMov
         }
     },[selectedMoves])
 
-    return(
-        <>
-        <PokeImage img={pokemonData.front_image}/>
-        <PokeStats stats={pokemonData.baseStats}/>
-        {
-            movesNumberExceeded &&
-            <p style={{textAlign: 'center'}}>You can only set up to four moves</p>
-        }
-        {
-            noMovesSelected &&
-            <p style={{textAlign: 'center'}}>Please select at least one move</p>
-        }
-        <MovesList moves={pokemonData.moves} addMove={addMove} removeMove={removeMove}/>
-        <MovesSelected moves={selectedMoves} />
-        {
-            areMovesOkay &&
-            <ConfirmButton confirmText="Start Battle" loadingText="Searching for an opponent" ready={!loadingRival} route={()=>moveToBattle()} />
-        }
-        </>
-    )
+    if(screenWidth < 1000){
+        return(
+            <>
+            <PokeImage img={pokemonData.front_image}/>
+            <PokeStats stats={pokemonData.baseStats}/>
+            <MovesList moves={pokemonData.moves} addMove={addMove} removeMove={removeMove}/>
+            {
+                movesNumberExceeded &&
+                <p style={{textAlign: 'center'}}>You can only set up to four moves</p>
+            }
+            {
+                noMovesSelected &&
+                <p style={{textAlign: 'center'}}>Please select at least one move</p>
+            }
+            {/* <MovesSelected moves={selectedMoves} /> */}
+            {
+                areMovesOkay &&
+                <ConfirmButton confirmText="Start Battle" loadingText="Searching for an opponent" ready={!loadingRival} route={()=>moveToBattle()} />
+            }
+            </>
+        )
+    }
+    else{
+        return(
+            <div style={landscapeLayoutStyle.wrapper}>
+                <div style={landscapeLayoutStyle.container}>
+                    <div style={landscapeLayoutStyle.imageContainer}>
+                        <PokeImage img={pokemonData.front_image}/>
+                    </div>
+                    <PokeStats stats={pokemonData.baseStats}/>
+                    <MovesSelected moves={selectedMoves} />
+                </div>
+                <div style={landscapeLayoutStyle.container}>
+                    <MovesList moves={pokemonData.moves} addMove={addMove} removeMove={removeMove} style={{height: 'wrap-content'}}/>
+                    {
+                        movesNumberExceeded &&
+                        <p style={{textAlign: 'center'}}>You can only set up to four moves</p>
+                    }
+                    {
+                        noMovesSelected &&
+                        <p style={{textAlign: 'center'}}>Please select at least one move</p>
+                    }
+                </div>
+                <div style={landscapeLayoutStyle.btnContainer}>
+                    {
+                        areMovesOkay &&
+                        <ConfirmButton confirmText="Start Battle" loadingText="Searching for an opponent" ready={!loadingRival} route={()=>moveToBattle()} />
+                    }
+                </div>
+            </div>
+        )
+    }
 }
 export default MoveSelectionPage
