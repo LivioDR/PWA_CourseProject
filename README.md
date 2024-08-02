@@ -23,34 +23,27 @@ o The project may be risky because it could be very large for the amount of time
 # 2. DEVELOPMENT
 
 ## Your implementation must also follow the guidelines below [ General ]
-[ ] Build your application following your plan. 
+[X] Build your application following your plan. 
 [ ] Your app must have a great UI (user interface) and provide a good UX (user experience). 
 [ ] The app shell must be well-styled. You may use any CSS Framework, but it must be responsive and provide a good UI/UX.
-[ ] Your app must also use some type of data management, whether Firebase Firestore or Realtime Database.
-[ ] The app must use Firebase for data management (you can use either Firestore or Realtime Database).
+[X] Your app must also use some type of data management, whether Firebase Firestore or Realtime Database.
+[X] The app must use Firebase for data management (you can use either Firestore or Realtime Database).
 [ ] For Firebase, it is your responsibility to make sure your database will be active until you receive the final grade for this project.
 [ ] Your app must generate no critical warnings or fatal errors on the console when running on either Android or iOS.
 [ ] The DevTools console must display no critical warnings or fatal errors related to your app
 
-## Your implementation must also follow the guidelines below [ REACT ]
-[ ] Your app MUST be developed using React Native: after all, you are expected to demonstrate what you have learned during the classes.
-[ ] Your code must be logically divided up into components, and they must be well organized into your file structure.
-[ ] You can choose any type of component you can work with. You can create Class Components or only Function Components with Hooks whenever necessary.
-[ ] Your assets must be original: use your own icon and splash screen (by original, I mean do not use the standard Expo assets nor the ones provided for the classes).
-[ ] Your app must be organized into multiple screens. You can choose to work with modal, stack, or tab navigation.
-[ ] Be sure to style all your components and screens. It is important that your app looks professional.
-[ ] It is your responsibility to ensure your database will be active until you receive the final grade for this project.
-[ ] The use of Redux may not be necessary. This will not be part of the evaluation, so using Redux or not is up to you.
-[ ] Typing your app with TypeScript is also optional. You can use the standard JavaScript approach, or you can use TypeScript on your app.
-
 ## Your implementation must also follow the guidelines below [ PWA ]
-[ ] Google Chrome DevTools must recognize the app as a PWA, and it must be installable.
-[ ] The app must contain a Web App Manifest file including all required properties to make the app a PWA.
-[ ] The app must have a registered Service Worker that properly manages the events 'install', 'activate', and 'fetch'.
-[ ] The app must handle one of the following cache strategies learned in class:
+[X] Google Chrome DevTools must recognize the app as a PWA, and it must be installable.
+[X] The app must contain a Web App Manifest file including all required properties to make the app a PWA.
+[X] The app must have a registered Service Worker that properly manages the events 'install', 'activate', and 'fetch'.
+[X] The app must handle one of the following cache strategies learned in class:
 Cache with Network fallback, Network with Cache fallback, or Stale while Revalidate. The app must work both online and offline, therefore the strategies Cache Only and Network Only will not be accepted.
 [ ] Since the app is expected to work office, you must also use IndexedDB to temporarily save the data locally when the app is offline, and then use Background Sync to save the data online once the connection is restored.
-[ ] Besides the ones mentioned above, the app must also use at least 3 other Web APIs discussed in class (Notification API, Push API, Geolocation API, Sensors API, etc).
+[X] Besides the ones mentioned above, the app must also use at least 3 other Web APIs discussed in class (Notification API, Push API, Geolocation API, Sensors API, etc).
+### APIs used
+- WakeLock API: used to prevent the device to going into sleep mode while on a battle
+- ScreenLock API: used to lock the device orientation on portrait whenever available
+- Vibration API: used to alert the user that a battle is about to start
 
 # 3. PRESENTATION
 [ ] You must also record and provide a link to a video where you walk through each requirement above and the associated code.
