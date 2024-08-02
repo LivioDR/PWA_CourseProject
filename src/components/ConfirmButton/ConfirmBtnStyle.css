@@ -3,7 +3,7 @@
     margin: 0 auto;
     align-items: center;
     text-align: center;
-    background-color: aqua;
+    background-color: teal;
     height: 3em;
     display: flex;
     flex-direction: row;
@@ -12,6 +12,10 @@
 
 }
 .confirmText {
+    font-size: medium;
+    color: white;
+}
+.loadingText {
     font-size: medium;
     color: black;
 }

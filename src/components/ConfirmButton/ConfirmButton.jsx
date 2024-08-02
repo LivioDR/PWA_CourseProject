@@ -15,7 +15,7 @@ const ConfirmButton = ({route, ready, confirmText = 'Confirm', loadingText = 'Lo
         return(
             <div style={{width: '100%'}}>
                 <button className="confirmWrapper loading" disabled>
-                    <p className="confirmText">{loadingText}</p>
+                    <p className="loadingText">{loadingText}</p>
                 </button>
             </div>
         )

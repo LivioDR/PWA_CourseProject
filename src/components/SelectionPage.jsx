@@ -40,11 +40,13 @@ const SelectionPage = ({setPokemonData, nextPage, wakeLock}) => {
 
     if(!loading){
         return(
-            <div style={{margin: '0 auto', width: '100%'}}>
+            <div style={{margin: '0 auto', width: '100%', height: '90vh'}}>
                 <PokeCardContainer selectedPokemon={selectedPokemon} setSelectedPokemon={setSelectedPokemon} setIsDataReady={setIsDataReady} pokeList={fetchedPokemon} setPokemonData={setPokemonData}/>
                 { 
-                selectedPokemon !== 0 &&            
-                <ConfirmButton route={nextPage} ready={isDataReady}/>
+                selectedPokemon !== 0 &&
+                <div style={{maxWidth: '500px', margin: '0 auto', marginTop: '20px'}}>
+                    <ConfirmButton route={nextPage} ready={isDataReady}/>
+                </div>            
                 }
             </div>
         )
