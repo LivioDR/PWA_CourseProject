@@ -30,7 +30,12 @@ export default function Home() {
     }
 
     // screen orientation lock
-    screen.orientation.lock("portrait")
+    screen.orientation.lock("portrait").then(res => {
+      console.log("Screen orientation locked to portrait mode")
+    })
+    .catch(e => {
+      console.error(`An error ocurred while locking the screen orientation:`,e)
+    })
   },[])
 
   const changeToSelectionPage = () => {
