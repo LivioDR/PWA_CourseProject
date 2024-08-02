@@ -30,7 +30,7 @@ const MoveSelectionPage = ({nextPage, pokemonData, selectedMoves, setSelectedMov
 
         // sends a vibration to the device if available
         if('vibrate' in navigator){
-            navigator.vibrate(200)
+            navigator.vibrate([200, 10, 200, 10, 200, 10, 150, 5, 50, 5, 200, 10, 150, 5, 50, 5, 400])
         }
 
         // moves onto the battle screen
