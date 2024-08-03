@@ -34,10 +34,15 @@ const PokeCard = ({id, name, lvl, exp, image, selected, setSelected, setPokemonD
         setSelected(id)
 
         // played sound effect on selection
-        const cry = await getPokemonCry(id)
-        const cryAudio = new Audio(cry)
-        cryAudio.volume = 0.5
-        cryAudio.play()
+        try{
+            const cry = await getPokemonCry(id)
+            const cryAudio = new Audio(cry)
+            cryAudio.volume = 0.5
+            cryAudio.play()
+        }
+        catch(e){
+            console.error(e)
+        }
 
         // gather all data an store it in state
         let allData = await getPokemonData(id)
