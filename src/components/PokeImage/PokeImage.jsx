@@ -17,10 +17,10 @@ const styles = {
 }
 
 
-const PokeImage = ({img , style = {}, xAlignment = "center"}) => {
+const PokeImage = ({img , style = {}, containerStyle = {}, xAlignment = "center"}) => {
 
     return(
-        <div style={{...styles.container, justifyContent: xAlignment}}>
+        <div style={{...styles.container, justifyContent: xAlignment, ...containerStyle}}>
             <Image
             src={img}
             width={style.width | 250}

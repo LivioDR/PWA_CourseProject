@@ -35,6 +35,13 @@ const landscapeLayoutStyle = {
     }
 }
 
+const imageBackgroundStyle = {
+    backgroundImage: 'url("./assets/images/openPokeball.png")',
+    backgroundSize: 'contain',
+    backgroundPosition: '80% 0%',
+    backgroundRepeat: 'no-repeat',
+}
+
 const MoveSelectionPage = ({nextPage, pokemonData, selectedMoves, setSelectedMoves, setRivalPokemonData}) => {
 
     const [movesNumberExceeded, setMovesNumberExceeded] = useState(false)
@@ -102,7 +109,7 @@ const MoveSelectionPage = ({nextPage, pokemonData, selectedMoves, setSelectedMov
     if(screenWidth < 1000){
         return(
             <>
-            <PokeImage img={pokemonData.front_image}/>
+            <PokeImage img={pokemonData.front_image} containerStyle={imageBackgroundStyle}/>
             <PokeStats stats={pokemonData.baseStats}/>
             <MovesList moves={pokemonData.moves} addMove={addMove} removeMove={removeMove}/>
             {
@@ -126,7 +133,7 @@ const MoveSelectionPage = ({nextPage, pokemonData, selectedMoves, setSelectedMov
             <div style={landscapeLayoutStyle.wrapper}>
                 <div style={landscapeLayoutStyle.container}>
                     <div style={landscapeLayoutStyle.imageContainer}>
-                        <PokeImage img={pokemonData.front_image}/>
+                        <PokeImage img={pokemonData.front_image} containerStyle={imageBackgroundStyle}/>
                     </div>
                     <PokeStats stats={pokemonData.baseStats}/>
                     <MovesSelected moves={selectedMoves} />
