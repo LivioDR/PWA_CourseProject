@@ -1,3 +1,4 @@
+import { setData } from "@/database/indexeddbFunctions"
 const baseUrl = "https://pokeapi.co/api/v2/type/"
 
 const getAllPokemon = async() => {
@@ -16,21 +17,15 @@ const getAllPokemon = async() => {
         // Goign through the results to fetch the details for every type
         // try{
             for( let i=0; i<types.count; i++){
-                let result = await fetch(types.results[i]?.url).then(res => res.json())
-                allPokemon.push(...result.pokemon.map(poke => poke.pokemon.name))
+                const url = types.results[i]?.url
+                let result = await fetch(url).then(res => res.json())
+
+                // setting the type data in the indexedDB
+                await setData(url,result,"pokemon-types","pokemon")
             }
-        // }
-        // catch(e){
-        //     console.error(e)
-        // }
-        // Getting all unique results
-        allPokemon = [...new Set(allPokemon)]
-        // Then sorting them in ascending order before returning it
-        allPokemon.sort()
     }
     catch(e){
         console.error(e)
     }
-    return allPokemon
 }
 export default getAllPokemon

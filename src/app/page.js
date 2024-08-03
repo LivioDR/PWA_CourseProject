@@ -5,6 +5,7 @@ import SelectionPage from "@/components/SelectionPage";
 import { useState, useEffect } from "react";
 import MoveSelectionPage from "@/components/MoveSelectionPage";
 import BattlePage from "@/components/BattlePage";
+import getAllInfoForCache from "@/services/downloadAllInfo";
 
 export default function Home() {
 
@@ -31,6 +32,16 @@ export default function Home() {
       navigator.serviceWorker.register('/serviceWorker.js')
     }
 
+    // online/offline handling
+    window.addEventListener('offline', () => { setIsOnline(false)})
+    window.addEventListener('online', () => { setIsOnline(true)})
+    if('onLine' in navigator){
+      setIsOnline(navigator.onLine)
+    }
+    
+    // set all the data in the indexedDB
+    getAllInfoForCache()
+    
     // screen orientation lock
     screen.orientation.lock("portrait").then(res => {
       console.log("Screen orientation locked to portrait mode")
@@ -38,14 +49,7 @@ export default function Home() {
     .catch(e => {
       console.error(`An error ocurred while locking the screen orientation:`,e)
     })
-
-    // online/offline handling
-    window.addEventListener('offline', () => { setIsOnline(false)})
-    window.addEventListener('online', () => { setIsOnline(true)})
-    if('onLine' in navigator){
-      setIsOnline(navigator.onLine)
-    }
-
+    
   },[])
 
   const changeToSelectionPage = () => {
