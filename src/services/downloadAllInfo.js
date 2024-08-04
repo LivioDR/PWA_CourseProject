@@ -1,6 +1,5 @@
 import { openDatabase, setData } from "@/database/indexeddbFunctions"
 import getAllPokemon from "./getAllPokemon"
-import { getPokemonCry, getPokemonData } from "./getPokemonData"
 
 const pokemonDataBaseUrl = "https://pokeapi.co/api/v2/pokemon/"
 const atkBaseUrl = "https://pokeapi.co/api/v2/move/"

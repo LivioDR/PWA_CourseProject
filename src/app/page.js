@@ -74,35 +74,30 @@ export default function Home() {
     setBattlePage(true)
   }
 
-  if(isOnline){
-    return (
-      <>
-        <Metadata/>
-        <Header/>
-        {
-          selectionPage &&
-          <SelectionPage nextPage={changeToMoveSelectionPage} setIsOnline={setIsOnline} wakeLock={wakeLockRef} pokemonData={pokemonData} setPokemonData={setPokemonData}/>
-        }
-        { 
-          moveSelectionPage &&
-          <MoveSelectionPage nextPage={changeToBattlePage} pokemonData={pokemonData} selectedMoves={selectedMoves} setSelectedMoves={setSelectedMoves} setRivalPokemonData={setRivalPokemonData}/>
-        }
-        {
-          battlePage &&
-          <BattlePage nextPage={changeToSelectionPage} setWakeLock={setWakeLockRef} pokemonData={pokemonData} pokemonAttacks={selectedMoves} rivalPokemonData={rivalPokemonData} setPokemonData={setPokemonData} setRivalPokemonData={setRivalPokemonData} />
-        }
-      </>
-    );
-  }
-  else{
-    return(
-      <>
-        <Metadata/>
-        <Header/>
+  return (
+    <>
+      <Metadata/>
+      <Header/>
+      {
+        selectionPage &&
+        isOnline &&
+        <SelectionPage nextPage={changeToMoveSelectionPage} setIsOnline={setIsOnline} wakeLock={wakeLockRef} pokemonData={pokemonData} setPokemonData={setPokemonData}/>
+      }
+      {
+        selectionPage &&
+        !isOnline &&
         <div style={{height: '90vh', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center'}}>
           <p>No internet connection. Please try again</p>
-        </div>
-      </>
-    )
-  }
+      </div>
+      }
+      { 
+        moveSelectionPage &&
+        <MoveSelectionPage nextPage={changeToBattlePage} pokemonData={pokemonData} selectedMoves={selectedMoves} setSelectedMoves={setSelectedMoves} setRivalPokemonData={setRivalPokemonData}/>
+      }
+      {
+        battlePage &&
+        <BattlePage nextPage={changeToSelectionPage} isOnline={isOnline} setWakeLock={setWakeLockRef} pokemonData={pokemonData} pokemonAttacks={selectedMoves} rivalPokemonData={rivalPokemonData} setPokemonData={setPokemonData} setRivalPokemonData={setRivalPokemonData} />
+      }
+    </>
+  );
 }

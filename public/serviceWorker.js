@@ -39,6 +39,49 @@ self.addEventListener('fetch', event => {
    // Caching pokemon moves
    else if((event.request.url).startsWith('https://pokeapi.co/api/v2/move/')){
       event.respondWith(
+         fetch(event.request.url).catch(netResult => {
+            const key = event.request.url
+            // creating a new promise that will handle the IndexedDB request
+            return new Promise((resolve, reject) => {
+               // opening the database
+               const dbName = "pokemon"
+               const storeName = "pokemon-moves"
+               const request = indexedDB.open(dbName,1)
+   
+               // setting the error and success handlers
+               request.onerror = () => {
+                  console.error(`An error occurred while trying to open the database ${dbName}.`)
+              }
+          
+              request.onsuccess = (event) => {
+                  console.log(`Database ${dbName} opened successfully.`)
+                  console.log(event.target.result)
+                  database = event.target.result
+                  // starting a transaction for the required store
+                  const transaction = database.transaction(storeName,'readonly')
+                  
+                  // setting the transaction handlers
+                  transaction.oncomplete = (event) => {
+                      console.log('Data transaction completed successfully', event)
+                  }
+                  transaction.onerror = (event) => {
+                      console.error("An error ocurred while reading data from the store", event)
+                  }
+              
+                  const objectStore = transaction.objectStore(storeName)
+                  const request = objectStore.get(key)
+                  request.onsuccess = (event) => {
+                      resolve(new Response(event.result))
+                  }
+                  request.onerror = (event) => {
+                      console.error(event)
+                      reject("An error occurred")
+                  }
+               }
+            })
+         })
+
+         /*
          caches.match(event.request.url).then(response => {
             if(response != undefined){ // match always resolves, but only if succeed it will have a value
                return response
@@ -57,6 +100,7 @@ self.addEventListener('fetch', event => {
          .catch(e => {
             console.error(e)
          })
+         */
       )
    }
 

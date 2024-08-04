@@ -10,7 +10,7 @@ const battlePageStyles = {
     },
 }
 
-const BattlePage = ({nextPage, pokemonData, pokemonAttacks, rivalPokemonData, setPokemonData, setRivalPokemonData, setWakeLock }) => {
+const BattlePage = ({nextPage, pokemonData, pokemonAttacks, rivalPokemonData, setPokemonData, setRivalPokemonData, setWakeLock, isOnline }) => {
 
     const [text, setText] = useState()
     const [isBattleOver, setIsBattleOver] = useState(false)
@@ -39,7 +39,15 @@ const BattlePage = ({nextPage, pokemonData, pokemonAttacks, rivalPokemonData, se
             <BattleContainer pokemonData={pokemonData} rivalPokemonData={rivalPokemonData} battleText={text} />
             {
                 isBattleOver &&
+                isOnline &&
                 <ConfirmButton confirmText="New game?" route={nextPage} ready={true} />
+            }
+            {
+                isBattleOver &&
+                !isOnline &&
+                <div style={{height: '90vh', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center'}}>
+                    <p>No internet connection. Please try again</p>
+                </div>
             }
         </div>
     )
