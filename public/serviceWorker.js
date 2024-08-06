@@ -1,3 +1,7 @@
+// import consoleTest from "./swFunctionsTest";
+// import { updateCollectionForUserId } from "/src/database/firebaseFunctions.js";
+const uid = "qwertyuiopasdfghjkl"
+
 // This code executes in its own worker or thread
 self.addEventListener("install", event => {
    console.log("SW installed")
@@ -157,3 +161,60 @@ self.addEventListener('fetch', event => {
    }
 
  })
+
+// background sync listener
+self.addEventListener('sync', event => {
+   console.warn(event)
+   if(event.tag === "firestore-update"){
+      console.warn("[SW] firestore-update sync requested")
+      // event.waitUntil(()=>{
+         let pokeCollection
+         // retrieve the data from the IndexedDB
+         const request = self.indexedDB.open("pokemon",1)
+         request.onerror = () => {
+               console.error("[SW] An error occurred while trying to open the database")
+         }
+         request.onsuccess = (event) => {
+            // get the database
+            const db = event.target.result
+
+            // start a read only transaction
+            const transaction = db.transaction(["pokedex"],"readonly")
+
+            transaction.oncomplete = () => {
+               console.log("[SW] Pokedex retrieved from the IndexedDB")
+            }
+            transaction.onerror = (event) => {
+               console.error("[SW] An error occurred in the IndexedDB transaction")
+               console.error(event)
+            }
+
+            // then I get the object store
+            const objectStore = transaction.objectStore("pokedex")
+            const request = objectStore.get(uid)
+
+            // and store the IndexedDB data in the variable to return
+            request.onsuccess = (event) => {
+               pokeCollection = event.target.result
+               console.log("[SW] Request completed successfully")
+               console.log(pokeCollection)
+               // update now the data in firebase
+               try{
+                  fetch('/api',{
+                     method: 'POST',
+                     body: JSON.stringify({
+                        uid: uid,
+                        pokeCollection: pokeCollection,
+                     })
+                  })
+                  // updateCollectionForUserId(uid, pokeCollection)
+               }
+               catch(e){
+                  console.error(e)
+               }
+
+            }
+         }
+      // })
+   }
+})

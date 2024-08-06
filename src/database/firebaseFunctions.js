@@ -183,10 +183,10 @@ const getCollectionForUserId = async(uid = testUid) => {
             const db = event.target.result
 
             // start a read only transaction
-            const transaction = db.transaction("pokedex","readonly")
+            const transaction = db.transaction(["pokedex"],"readonly")
 
             transaction.oncomplete = () => {
-                console.log("Pokedex stored in the IndexedDB")
+                console.log("Pokedex retrieved from the IndexedDB")
             }
             transaction.onerror = (event) => {
                 console.error("An error occurred in the IndexedDB transaction")
@@ -199,7 +199,7 @@ const getCollectionForUserId = async(uid = testUid) => {
 
             // and store the IndexedDB data in the variable to return
             request.onsuccess = (event) => {
-                pokeCollection = event.result
+                pokeCollection = event.target.result
                 console.log("Request completed successfully")
             }
         }
@@ -219,44 +219,44 @@ const updateCollectionForUserId = async(uid = testUid, collection) => {
         pokedex: pokedex
     }
 
-    // if there's an online connection update the info in Firebase
-    if(navigator.onLine){
-        try{
-            await updateDoc(doc(db, 'pokedex', uid), dataToUpload)
-        }   
-        catch(e){
-            console.error(e)
-        }
+    // if there's an online connection the info in Firebase will be updated. This condition is checked on page.js, which sets the tag
+    try{
+        await updateDoc(doc(db, 'pokedex', uid), dataToUpload)
+    }   
+    catch(e){
+        console.error(e)
     }
 
-    // Also update the info in the IndexedDB
-    const request = window.indexedDB.open("pokemon",1)
-    request.onerror = () => {
-        console.error("An error occurred while trying to open the database")
-    }
-    request.onsuccess = (event) => {
-        // get the database
-        const db = event.target.result
-
-        // start a RW transaction
-        const transaction = db.transaction("pokedex","readwrite")
-
-        transaction.oncomplete = () => {
-            console.log("Pokedex updated in the IndexedDB")
+    // Also update the info in the IndexedDB if this function is called by the page script
+    if(window){
+        const request = window.indexedDB.open("pokemon",1)
+        request.onerror = () => {
+            console.error("An error occurred while trying to open the database")
         }
-        transaction.onerror = (event) => {
-            console.error("An error occurred in the IndexedDB transaction")
-            console.error(event)
-        }
-
-        // then I get the object store
-        const objectStore = transaction.objectStore("pokedex")
-        // and update the info
-        const request = objectStore.put(collection, uid)
-
         request.onsuccess = (event) => {
-            console.log("Request completed successfully")
-            console.log(event)
+            // get the database
+            const db = event.target.result
+    
+            // start a RW transaction
+            const transaction = db.transaction("pokedex","readwrite")
+    
+            transaction.oncomplete = () => {
+                console.log("Pokedex updated in the IndexedDB")
+            }
+            transaction.onerror = (event) => {
+                console.error("An error occurred in the IndexedDB transaction")
+                console.error(event)
+            }
+    
+            // then I get the object store
+            const objectStore = transaction.objectStore("pokedex")
+            // and update the info
+            const request = objectStore.put(collection, uid)
+    
+            request.onsuccess = (event) => {
+                console.log("Request completed successfully")
+                console.log(event)
+            }
         }
     }
 }

@@ -28,7 +28,28 @@ export default function Home() {
   useEffect(()=>{
     // Managing service worker
     if('serviceWorker' in navigator){
-      navigator.serviceWorker.register('/serviceWorker.js')
+      navigator.serviceWorker.register('/serviceWorker.js', {scope: '/', type: 'module'})
+  
+      // background sync registering for testing
+      navigator.serviceWorker.ready.then(registration => {
+        if(registration.sync){
+          if(!navigator.onLine){
+            registration.sync.getTags().then(tags => {
+              if(tags.includes('firestore-update')){
+                console.log("Background sync task already registered")
+              }
+              else{
+                registration.sync.register('firestore-update').then(() => {
+                    console.log("Background Sync registered")
+                })
+              }
+            })
+          }
+        }
+        else{
+          console.log("Background sync not available")
+        }
+      })
     }
 
     // screen orientation lock
