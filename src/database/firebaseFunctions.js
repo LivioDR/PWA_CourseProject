@@ -152,7 +152,7 @@ const getCollectionForUserId = async(uid = testUid) => {
 
                         // then I get the object store
                         const objectStore = transaction.objectStore("pokedex")
-                        const request = objectStore.put(pokeCollection, uid)
+                        const request = objectStore.add(pokeCollection, uid)
 
                         request.onsuccess = (event) => {
                             console.log("Request completed successfully")
@@ -251,7 +251,7 @@ const updateCollectionForUserId = async(uid = testUid, collection) => {
             // then I get the object store
             const objectStore = transaction.objectStore("pokedex")
             // and update the info
-            const request = objectStore.put(collection, uid)
+            const request = objectStore.add(collection, uid)
     
             request.onsuccess = (event) => {
                 console.log("Request completed successfully")
