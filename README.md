@@ -92,9 +92,9 @@ After the HP of one of the pokemon reaches zero, the battle ends. Depending on t
 - [PokeAPI](https://pokeapi.co/docs/v2): to get the pokemon and moves data.
 - [Firebase Firestore SDK](https://firebase.google.com/docs/firestore/client/libraries): to store the state of the user’s pokemon collection.
 - [Next.js API Route](https://nextjs.org/docs/pages/building-your-application/routing/api-routes): to call functions from the service worker during the background synchronization (check [Annex B - background sync](#annex-b---background-synchronization))
-WakeLock API: to prevent the device from going into sleep mode while on a battle.
-ScreenLock API: to lock the device orientation on portrait whenever available.
-Vibration API: to alert the user that a battle is about to start.
+- WakeLock API: to prevent the device from going into sleep mode while on a battle.
+- ScreenLock API: to lock the device orientation on portrait whenever available.
+- Vibration API: to alert the user that a battle is about to start.
 
 ---
 
@@ -127,7 +127,7 @@ The orange components are the starting and end points of each one of the app scr
 ---
 
 ## Annex B - [Background Synchronization](https://drive.google.com/file/d/11xgJFAlAGA_SbZQr1Ae9bNSnRq0u5BLy/view?usp=sharing)
-Due to the way Node.js works with the integration of the service worker, the functions that were developed in a separated file to interact with FIrestore had to be called through a custom API endpoint created on the API folder under the name routes.js.
+Due to the way Node.js works with the integration of the service worker, the functions that were developed in a separated file to interact with FIrestore had to be called through a custom API endpoint created on the API folder under the name route.js.
 Whenever the connection is lost during the synchronization with Firestore, a tag is created and as soon as the connection is restored, the sync event is triggered in the service worker who calls the API and passes the data in the body of the POST method called. This data is parsed on the Node.js API and sent to Firestore to update the user’s records.
 ![Cache strategies](./public/assets/images/documentation/annexApiManagement.png)
 
