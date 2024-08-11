@@ -120,7 +120,9 @@ After the HP of one of the pokemon reaches zero, the battle ends. Depending on t
 
 ## Annex A - [Project diagram](https://drive.google.com/file/d/11xgJFAlAGA_SbZQr1Ae9bNSnRq0u5BLy/view?usp=sharing)
 The following diagram represents the project structure. 
+
 The green colored elements represent what was created for this project, while the elements left without a color are the ones that are intended to be implemented in the future for this app. 
+
 The orange components are the starting and end points of each one of the app screens.
 ![Project diagram](./public/assets/images/documentation/annexProjectStructure.png)
 
@@ -128,7 +130,10 @@ The orange components are the starting and end points of each one of the app scr
 
 ## Annex B - [Background Synchronization](https://drive.google.com/file/d/11xgJFAlAGA_SbZQr1Ae9bNSnRq0u5BLy/view?usp=sharing)
 Due to the way Node.js works with the integration of the service worker, the functions that were developed in a separated file to interact with FIrestore had to be called through a custom API endpoint created on the API folder under the name route.js.
-Whenever the connection is lost during the synchronization with Firestore, a tag is created and as soon as the connection is restored, the sync event is triggered in the service worker who calls the API and passes the data in the body of the POST method called. This data is parsed on the Node.js API and sent to Firestore to update the user’s records.
+
+Whenever the connection is lost during the synchronization with Firestore, a tag is created and as soon as the connection is restored, the sync event is triggered in the service worker who calls the API and passes the data in the body of the POST method called. 
+
+This data is parsed on the Node.js API and sent to Firestore to update the user’s records.
 ![Cache strategies](./public/assets/images/documentation/annexApiManagement.png)
 
 ---
