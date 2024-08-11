@@ -35,7 +35,6 @@ const SelectionPage = ({setPokemonData, nextPage, wakeLock, setIsOnline}) => {
             try{
                 wakeLock.release().then(res => {
                         console.log(`Sentinel released successfully`)
-                        console.log(res)
                     }).catch(err => {
                         console.error(`An error occurred while releasing the sentinel`)
                         console.error(err)

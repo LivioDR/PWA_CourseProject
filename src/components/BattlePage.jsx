@@ -39,7 +39,7 @@ const BattlePage = ({nextPage, pokemonData, pokemonAttacks, rivalPokemonData, se
             <BattleContainer pokemonData={pokemonData} rivalPokemonData={rivalPokemonData} battleText={text} />
             {
                 isBattleOver &&
-                <ConfirmButton confirmText="New game?" route={nextPage} ready={true} />
+                <ConfirmButton confirmText="New game" route={nextPage} ready={true} />
             }
         </div>
     )

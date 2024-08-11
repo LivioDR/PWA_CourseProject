@@ -1,14 +1,19 @@
 // import consoleTest from "./swFunctionsTest";
 // import { updateCollectionForUserId } from "/src/database/firebaseFunctions.js";
 const uid = "qwertyuiopasdfghjkl"
+const debug = false
 
 // This code executes in its own worker or thread
 self.addEventListener("install", event => {
-   console.log("SW installed")
+   if(debug){
+      console.log("SW installed")
+   }
    self.skipWaiting()
 });
 self.addEventListener("activate", event => {
-   console.log("And activated!")
+   if(debug){
+      console.log("And activated!")
+   }
    event.waitUntil(clients.claim())
 });
 
@@ -164,9 +169,13 @@ self.addEventListener('fetch', event => {
 
 // background sync listener
 self.addEventListener('sync', event => {
-   console.warn(event)
+   if(debug){
+      console.warn(event)
+   }
    if(event.tag === "firestore-update"){
-      console.warn("[SW] firestore-update sync requested")
+      if(debug){
+         console.warn("[SW] firestore-update sync requested")
+      }
       // event.waitUntil(()=>{
          let pokeCollection
          // retrieve the data from the IndexedDB
@@ -182,7 +191,9 @@ self.addEventListener('sync', event => {
             const transaction = db.transaction(["pokedex"],"readonly")
 
             transaction.oncomplete = () => {
-               console.log("[SW] Pokedex retrieved from the IndexedDB")
+               if(debug){
+                  console.log("[SW] Pokedex retrieved from the IndexedDB")
+               }
             }
             transaction.onerror = (event) => {
                console.error("[SW] An error occurred in the IndexedDB transaction")
@@ -196,8 +207,10 @@ self.addEventListener('sync', event => {
             // and store the IndexedDB data in the variable to return
             request.onsuccess = (event) => {
                pokeCollection = event.target.result
-               console.log("[SW] Request completed successfully")
-               console.log(pokeCollection)
+               if(debug){
+                  console.log("[SW] Request completed successfully")
+                  console.log(pokeCollection)
+               }
                // update now the data in firebase
                try{
                   fetch('/api',{
