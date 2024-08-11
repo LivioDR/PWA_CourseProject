@@ -150,10 +150,16 @@ const typeMessage = async(typeMult, setText) => {
     if(typeMult == 0){
         await setTextWithDelay("It doesn't affect the pokemon...", setText)
     }
+    else if(typeMult == 4){
+        await setTextWithDelay("It's super effective!", setText)
+    }
     else if(typeMult == 2){
         await setTextWithDelay("It's super effective!", setText)
     }
     else if(typeMult == 0.5){
+        await setTextWithDelay("It's not very effective...", setText)
+    }
+    else if(typeMult == 0.25){
         await setTextWithDelay("It's not very effective...", setText)
     }
     else{
