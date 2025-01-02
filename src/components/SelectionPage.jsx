@@ -3,6 +3,7 @@ import ConfirmButton from "@/components/ConfirmButton/ConfirmButton"
 import PokeCardContainer from "@/components/PokeCardContainer/PokeCardContainer"
 import React, { useEffect, useState } from "react"
 import { getCollectionForUserId } from "@/database/firebaseFunctions"
+import { auth } from "@/database/firebaseFunctions"
 
 const SelectionPage = ({setPokemonData, nextPage, wakeLock, setIsOnline}) => {
     const [selectedPokemon, setSelectedPokemon] = useState(0)
@@ -14,7 +15,7 @@ const SelectionPage = ({setPokemonData, nextPage, wakeLock, setIsOnline}) => {
         const getPokemonData = async() => {
             let result
             if(typeof window != "undefined"){
-                result = await getCollectionForUserId(localStorage.getItem("uid"))
+                result = await getCollectionForUserId(auth.currentUser.uid)
             }
             if(result.length > 0){
                 setFetchedPokemon(result)
@@ -48,7 +49,7 @@ const SelectionPage = ({setPokemonData, nextPage, wakeLock, setIsOnline}) => {
 
     if(!loading){
         return(
-            <div style={{margin: '0 auto', width: '100%', height: '90vh'}}>
+            <div style={{margin: '0 auto', width: '100%'}}>
                 <PokeCardContainer selectedPokemon={selectedPokemon} setSelectedPokemon={setSelectedPokemon} setIsDataReady={setIsDataReady} pokeList={fetchedPokemon} setPokemonData={setPokemonData}/>
                 { 
                 selectedPokemon !== 0 &&

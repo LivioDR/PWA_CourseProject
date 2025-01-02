@@ -1,4 +1,5 @@
 import { getCollectionForUserId, updateCollectionForUserId } from "@/database/firebaseFunctions"
+import { auth } from "@/database/firebaseFunctions"
 
 // Returns the order of attacks for the turn
 const getTurnOrder = (myStats, rivalStats) => {
@@ -251,7 +252,7 @@ const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonDa
 const addExpAndCalculateLevelForPokemon = async(idOfMyPokemon, earnedExp) => {
     let uid
     if(typeof window != "undefined"){
-        uid = localStorage.getItem("uid")
+        uid = auth.currentUser.uid
     }
     let pokemonDataForUpdate = await getCollectionForUserId(uid)
     for(let i=0; i<pokemonDataForUpdate.length; i++){
@@ -266,7 +267,7 @@ const addExpAndCalculateLevelForPokemon = async(idOfMyPokemon, earnedExp) => {
 const addPokemonToCollectionIfNotCaught = async(rivalData) => {
     let uid
     if(typeof window != "undefined"){
-        uid = localStorage.getItem("uid")
+        uid = auth.currentUser.uid
     }
     let myCurrentPokemonCollection = await getCollectionForUserId(uid)
     const id = rivalData.id
