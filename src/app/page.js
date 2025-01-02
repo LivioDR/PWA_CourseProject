@@ -5,6 +5,10 @@ import SelectionPage from "@/components/SelectionPage";
 import { useState, useEffect } from "react";
 import MoveSelectionPage from "@/components/MoveSelectionPage";
 import BattlePage from "@/components/BattlePage";
+import { LoginPage } from "@/components/LoginPage";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, logout } from "@/database/firebaseFunctions";
+import ConfirmButton from "@/components/ConfirmButton/ConfirmButton";
 
 export default function Home() {
 
@@ -15,17 +19,26 @@ export default function Home() {
   const [selectedMoves, setSelectedMoves] = useState([])
   const [rivalPokemonData, setRivalPokemonData] = useState({})
   const [isOnline, setIsOnline] = useState(false)
+  const [credentials, setCredentials] = useState(undefined)
 
   // wakeLock state management
   const [wakeLockRef, setWakeLockRef] = useState(null)
 
-  // ******* TESTING ONLY ******* //
-  if(typeof window != "undefined"){
-    localStorage.setItem("uid","qwertyuiopasdfghjkl")
-  }
-  // ******* TESTING ONLY ******* //
-
   useEffect(()=>{
+
+    // auth handling
+    (async()=>{
+      onAuthStateChanged(auth, user => {
+        if(user){
+          setCredentials(user)
+        }
+        else{
+          setCredentials(undefined)
+        }
+      })
+    })()
+
+    /* DISABLING SERVICE WORKER WHILE DEALING WITH AUTH
     // Managing service worker
     if('serviceWorker' in navigator){
       navigator.serviceWorker.register('/serviceWorker.js', {scope: '/', type: 'module'})
@@ -51,6 +64,7 @@ export default function Home() {
         }
       })
     }
+    */
 
     // screen orientation lock
     screen.orientation.lock("portrait").then(res => {
@@ -68,6 +82,10 @@ export default function Home() {
     }
 
   },[])
+
+  const logoutUser = async() => {
+    await logout(setCredentials)
+  }
 
   const changeToSelectionPage = () => {
     setSelectionPage(true)
@@ -91,11 +109,18 @@ export default function Home() {
     setBattlePage(true)
   }
 
+  if(isOnline && !credentials){
+    return(
+      <LoginPage setAuth={setCredentials}/>
+    )
+  }
+
   if(isOnline){
     return (
       <>
         <Metadata/>
         <Header/>
+        <ConfirmButton route={logoutUser} ready={true} confirmText="Log out" styles={{marginBottom: 10}}/>
         {
           selectionPage &&
           <SelectionPage nextPage={changeToMoveSelectionPage} setIsOnline={setIsOnline} wakeLock={wakeLockRef} pokemonData={pokemonData} setPokemonData={setPokemonData}/>
@@ -116,6 +141,7 @@ export default function Home() {
       <>
         <Metadata/>
         <Header/>
+        <ConfirmButton route={logoutUser} ready={true} confirmText="Log out" styles={{marginBottom: 10}}/>
         <div style={{height: '90vh', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center'}}>
           <p>No internet connection. Please try again</p>
         </div>
