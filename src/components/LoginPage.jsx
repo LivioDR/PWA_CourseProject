@@ -88,6 +88,10 @@ export const LoginPage = ({setAuth}) => {
         setIsLogin(prev => !prev)
     }
 
+    const demoUser = async() => {
+        await login("demouser@pokebattlerpg.com","EsteeselusuariodepruebaparaPokeBattleRPG!@$%^&*", setAuth, setAlert)
+    }
+
     return(
         <div style={styles.container}>
             <Header/>
@@ -110,6 +114,7 @@ export const LoginPage = ({setAuth}) => {
                 <p style={styles.alert}>{alert}</p>
             </div>
             <button style={styles.toggleText} onClick={toggleLogin}>{isLogin ? "New to the app? Sign up" : "Already a user? Log in"}</button>
+            <button style={styles.toggleText} onClick={demoUser}>{"Want to try it out first? Click here"}</button>
         </div>
     )
 }
