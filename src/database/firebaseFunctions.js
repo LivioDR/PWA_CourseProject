@@ -6,8 +6,7 @@ import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, si
 import { firebaseErrors } from "@/utilities/firebaseErrors";
 
 
-const testUid = "qwertyuiopasdfghjkl"
-const testUsername = "UsernameForTesting"
+export const testUid = "qwertyuiopasdfghjkl"
 const debug = false
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -32,7 +31,6 @@ const login = async(email, password, setAuth, setError) => {
     await signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
         setAuth(userCredential)
-        console.log(userCredential)
     })
     .catch((error) => {
         setError(firebaseErrors[error.code])
@@ -42,10 +40,9 @@ const login = async(email, password, setAuth, setError) => {
 const logout = async(setAuth) => {
     await signOut(auth).then(() => {
         setAuth(undefined)
-      }).catch((error) => {
+        }).catch((error) => {
         console.error("An error occurred while logging out. Please try again later.")
-      });
-      
+        });
 }
 
 const signUp = async(email, password, setAuth, setError) => {
