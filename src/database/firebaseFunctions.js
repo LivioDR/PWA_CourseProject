@@ -2,6 +2,9 @@
 import StartingPokemonTeam from "@/utilities/StartingPokemonTeam";
 import { initializeApp } from "firebase/app";
 import { getFirestore, setDoc, doc, updateDoc, collection, getDocs } from "firebase/firestore";
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { firebaseErrors } from "@/utilities/firebaseErrors";
+
 
 const testUid = "qwertyuiopasdfghjkl"
 const testUsername = "UsernameForTesting"
@@ -22,7 +25,44 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app)
 const db = getFirestore(app)
+
+const login = async(email, password, setAuth, setError) => {
+    await signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+        setAuth(userCredential)
+        console.log(userCredential)
+    })
+    .catch((error) => {
+        setError(firebaseErrors[error.code])
+    });
+}
+
+const logout = async(setAuth) => {
+    await signOut(auth).then(() => {
+        setAuth(undefined)
+      }).catch((error) => {
+        console.error("An error occurred while logging out. Please try again later.")
+      });
+      
+}
+
+const signUp = async(email, password, setAuth, setError) => {
+    try{ 
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+        const uid = userCredential.user.uid
+        await createCollectionForUserId(uid, email)
+    
+        setAuth(userCredential)
+
+    }
+    catch(error){
+        setError(firebaseErrors[error.code])
+
+    }
+
+}
 
 
 const createCollectionForUserId = async(uid = testUid, username = testUsername) => {
@@ -199,4 +239,4 @@ const updateCollectionForUserId = async(uid = testUid, collection) => {
     }
 }
 
-export { createCollectionForUserId, getCollectionForUserId, updateCollectionForUserId }
+export { auth, login, signUp, logout, createCollectionForUserId, getCollectionForUserId, updateCollectionForUserId }
