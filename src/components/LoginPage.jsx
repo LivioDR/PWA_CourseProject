@@ -1,5 +1,7 @@
 import { useState } from "react"
 import Header from "./Header/Header"
+import { validateForm } from "@/utilities/formValidation"
+import { login, signUp } from "@/database/firebaseFunctions"
 
 const styles = {
     container: {
@@ -45,6 +47,7 @@ const styles = {
     },
     toggleText: {
         fontSize: 12,
+        padding: 10,
     }
 
 }
@@ -56,9 +59,26 @@ export const LoginPage = ({setAuth}) => {
     const [pass, setPass] = useState("")
     const [confirm, setConfirm] = useState("")
     const [alert, setAlert] = useState("")
+    const [isLoading, setIsLoading] = useState(false)
 
-    const loginAttempt = () => {
-        console.log(email, pass, confirm)
+    const loginAttempt = async() => {
+        setIsLoading(true)
+        const result = validateForm(email, pass, isLogin? pass : confirm)
+        
+        if(!result.result){
+            setAlert(result.message)
+            setIsLoading(false)
+            return
+        }
+        else{
+            if(isLogin){
+                await login(email, pass, setAuth, setAlert)
+            }
+            else{
+                await signUp(email, pass, setAuth, setAlert)
+            }
+            setIsLoading(false)
+        }
     }
 
     const toggleLogin = () => {
@@ -79,10 +99,17 @@ export const LoginPage = ({setAuth}) => {
                     !isLogin &&
                     <input style={styles.fields} name="confirmPassword" placeholder="Confirm password" type="password" value={confirm} onChange={(e)=>{setConfirm(e.target.value)}}/>
                 }
-                <button style={styles.button} onClick={loginAttempt}>{isLogin ? "Login" : "Sign up"}</button>
+                {
+                    isLoading &&
+                    <button style={styles.button} onClick={loginAttempt} disabled>{isLogin ? "Login" : "Sign up"}</button>
+                }
+                {
+                    !isLoading &&
+                    <button style={styles.button} onClick={loginAttempt}>{isLogin ? "Login" : "Sign up"}</button>
+                }
                 <p style={styles.alert}>{alert}</p>
             </div>
-            <p style={styles.toggleText} onClick={toggleLogin}>{isLogin ? "New to the app? Sign up" : "Already a user? Log in"}</p>
+            <button style={styles.toggleText} onClick={toggleLogin}>{isLogin ? "New to the app? Sign up" : "Already a user? Log in"}</button>
         </div>
     )
 }
