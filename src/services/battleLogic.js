@@ -1,4 +1,5 @@
 import { getCollectionForUserId, updateCollectionForUserId } from "@/database/firebaseFunctions"
+import { auth } from "@/database/firebaseFunctions"
 
 // Returns the order of attacks for the turn
 const getTurnOrder = (myStats, rivalStats) => {
@@ -206,7 +207,7 @@ const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonDa
                 // checks if the battle is over
                 if(rivalStatsAfterAttack.Hp == 0){
                     isBattleOverFlag = true
-                    const exp = getEarnedExperience(pokemonData.length,rivalPokemonData.level,rivalPokemonData.baseExp)
+                    const exp = getEarnedExperience(pokemonData.level,rivalPokemonData.level,rivalPokemonData.baseExp)
                     await addExpAndCalculateLevelForPokemon(pokemonData.id, exp)
                     await addPokemonToCollectionIfNotCaught(rivalPokemonData)
                     battleOverSequence(myPokemon, rivalPokemon, true, pokemonData.level, rivalPokemonData.level, rivalPokemonData.baseExp, setText, setIsBattleOver)
@@ -251,7 +252,7 @@ const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonDa
 const addExpAndCalculateLevelForPokemon = async(idOfMyPokemon, earnedExp) => {
     let uid
     if(typeof window != "undefined"){
-        uid = localStorage.getItem("uid")
+        uid = auth.currentUser.uid
     }
     let pokemonDataForUpdate = await getCollectionForUserId(uid)
     for(let i=0; i<pokemonDataForUpdate.length; i++){
@@ -266,7 +267,7 @@ const addExpAndCalculateLevelForPokemon = async(idOfMyPokemon, earnedExp) => {
 const addPokemonToCollectionIfNotCaught = async(rivalData) => {
     let uid
     if(typeof window != "undefined"){
-        uid = localStorage.getItem("uid")
+        uid = auth.currentUser.uid
     }
     let myCurrentPokemonCollection = await getCollectionForUserId(uid)
     const id = rivalData.id

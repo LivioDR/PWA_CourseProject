@@ -111,7 +111,7 @@ const MoveSelectionPage = ({nextPage, pokemonData, selectedMoves, setSelectedMov
             <>
             <PokeImage img={pokemonData.front_image} containerStyle={imageBackgroundStyle}/>
             <PokeStats stats={pokemonData.baseStats}/>
-            <MovesList moves={pokemonData.moves} addMove={addMove} removeMove={removeMove} style={{height: '35vh'}}/>
+            <MovesList moves={pokemonData.moves} addMove={addMove} removeMove={removeMove} style={{height: '30vh'}}/>
             {
                 movesNumberExceeded &&
                 <p style={{textAlign: 'center'}}>You can only set up to four moves</p>

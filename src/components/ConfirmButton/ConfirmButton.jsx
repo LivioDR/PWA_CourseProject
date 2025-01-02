@@ -1,10 +1,10 @@
 import React from "react";
 import './ConfirmBtnStyle.css'
 
-const ConfirmButton = ({route, ready, confirmText = 'Confirm', loadingText = 'Loading...'}) => {
+const ConfirmButton = ({route, ready, confirmText = 'Confirm', loadingText = 'Loading...', styles = {}}) => {
     if(ready){
         return(
-            <div style={{width: '100%', maxWidth: '500px', margin: '0 auto'}}>
+            <div style={{width: '100%', maxWidth: '500px', margin: '0 auto', ...styles}}>
                 <button className="confirmWrapper" onClick={route}>
                     <p className="confirmText">{confirmText}</p>
                 </button>
@@ -13,7 +13,7 @@ const ConfirmButton = ({route, ready, confirmText = 'Confirm', loadingText = 'Lo
     }
     else{
         return(
-            <div style={{width: '100%', maxWidth: '500px', margin: '0 auto'}}>
+            <div style={{width: '100%', maxWidth: '500px', margin: '0 auto', ...styles}}>
                 <button className="confirmWrapper loading" disabled>
                     <p className="loadingText">{loadingText}</p>
                 </button>
