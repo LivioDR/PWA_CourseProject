@@ -167,6 +167,7 @@ self.addEventListener('fetch', event => {
 
  })
 
+/*
 // background sync listener
 self.addEventListener('sync', event => {
    if(debug){
@@ -231,3 +232,4 @@ self.addEventListener('sync', event => {
       // })
    }
 })
+*/

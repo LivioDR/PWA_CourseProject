@@ -38,7 +38,6 @@ export default function Home() {
       })
     })()
 
-    /* DISABLING SERVICE WORKER WHILE DEALING WITH AUTH
     // Managing service worker
     if('serviceWorker' in navigator){
       navigator.serviceWorker.register('/serviceWorker.js', {scope: '/', type: 'module'})
@@ -64,7 +63,6 @@ export default function Home() {
         }
       })
     }
-    */
 
     // screen orientation lock
     screen.orientation.lock("portrait").then(res => {
