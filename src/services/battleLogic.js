@@ -207,7 +207,7 @@ const startBattle = async(pokemonData, myAttacks, setPokemonData, rivalPokemonDa
                 // checks if the battle is over
                 if(rivalStatsAfterAttack.Hp == 0){
                     isBattleOverFlag = true
-                    const exp = getEarnedExperience(pokemonData.length,rivalPokemonData.level,rivalPokemonData.baseExp)
+                    const exp = getEarnedExperience(pokemonData.level,rivalPokemonData.level,rivalPokemonData.baseExp)
                     await addExpAndCalculateLevelForPokemon(pokemonData.id, exp)
                     await addPokemonToCollectionIfNotCaught(rivalPokemonData)
                     battleOverSequence(myPokemon, rivalPokemon, true, pokemonData.level, rivalPokemonData.level, rivalPokemonData.baseExp, setText, setIsBattleOver)
