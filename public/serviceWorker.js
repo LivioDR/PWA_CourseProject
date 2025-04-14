@@ -140,7 +140,7 @@ self.addEventListener('fetch', event => {
          })
       )
    }
-
+   /*
    // Caching the app shell files and skipping the chrome extensions and firebase functions
    else if(!(event.request.url).startsWith('chrome-extension') && !(event.request.url).startsWith('https://firestore.googleapis')){
       event.respondWith(
@@ -164,7 +164,7 @@ self.addEventListener('fetch', event => {
          })
       )
    }
-
+   */
  })
 
 /*
