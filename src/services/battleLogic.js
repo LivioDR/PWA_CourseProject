@@ -254,6 +254,12 @@ const addExpAndCalculateLevelForPokemon = async(idOfMyPokemon, earnedExp) => {
     if(typeof window != "undefined"){
         uid = auth.currentUser.uid
     }
+
+    // skipping this for the demo user
+    if(uid === "qOeuaztV3zdFPvem0nTLa4s7tz82"){
+        return
+    }
+
     let pokemonDataForUpdate = await getCollectionForUserId(uid)
     for(let i=0; i<pokemonDataForUpdate.length; i++){
         if(pokemonDataForUpdate[i].id == idOfMyPokemon){
@@ -269,6 +275,12 @@ const addPokemonToCollectionIfNotCaught = async(rivalData) => {
     if(typeof window != "undefined"){
         uid = auth.currentUser.uid
     }
+
+    // skipping this for the demo user
+    if(uid === "qOeuaztV3zdFPvem0nTLa4s7tz82"){
+        return
+    }
+
     let myCurrentPokemonCollection = await getCollectionForUserId(uid)
     const id = rivalData.id
     for(let i=0; i<myCurrentPokemonCollection.length; i++){
