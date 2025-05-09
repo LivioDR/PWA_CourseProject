@@ -158,3 +158,8 @@ This data is parsed on the Node.js API and sent to Firestore to update the userâ
 - [Pokemon ghost](https://www.lifewire.com/thmb/htqRVxl-KVsa4jLcCuZN3rUCZaU=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/PokeGhost-5bc39ae74cedfd0051154962.png)
 
 ![Pokemon ghost](https://www.lifewire.com/thmb/htqRVxl-KVsa4jLcCuZN3rUCZaU=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/PokeGhost-5bc39ae74cedfd0051154962.png)
+
+---
+
+## Annex D - More about this project
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/LivioDR/PWA_CourseProject)
